@@ -1,3 +1,5 @@
+.settings/
+bin/
 database.*
 .DS_Store
 /target/
