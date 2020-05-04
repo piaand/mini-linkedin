@@ -27,4 +27,28 @@ public class ProjektiTest extends org.fluentlenium.adapter.junit.FluentTest {
         find("a", withText("About")).click();
         assertFalse(pageSource().contains(landingIntro));
     }
+    
+    @Test
+    public void testRegistration() {
+        String landingIntro = "The Only Spike-friendly Resume App";
+        String signupText = "I solemnly swear that I am up to no good";
+        String name = "Matti Meikäläinen";
+        String username = "mattis";
+        String password = "kissa";
+        String profile = "matti-meikalainen-1";
+        
+        goTo("http://localhost:" + port);
+        assertTrue(pageSource().contains(landingIntro));
+        find(".btn-default", withText("Sign up")).click();
+        assertTrue(pageSource().contains(signupText));
+        find("input").fill().with(name, username, password, profile);
+        find("button", withText("Submit")).click();
+        assertTrue(pageSource().contains(landingIntro));
+        find(".btn-lg", withText("Log in")).click();
+        assertFalse(pageSource().contains(landingIntro));
+        find("input").fill().with(username, password);
+        find("button").click();
+        assertTrue(pageSource().contains("Secret!"));
+        assertEquals(false, true);
+    }
 }
