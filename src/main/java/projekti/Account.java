@@ -25,7 +25,7 @@ public class Account extends AbstractPersistable<Long> {
     private String name;
     private String username;
     private String password;
-    private String profile_chars;
+    private String profile;
     
     @Lob
     private byte[] picture;
