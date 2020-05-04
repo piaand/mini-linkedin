@@ -19,6 +19,12 @@ public class DefaultController {
         return "index";
     }
     
+    @GetMapping("/profile")
+    public String getProfile() {
+        
+        return "profile";
+    }
+    
     @GetMapping("/signup")
     public String getSignup() {
         
