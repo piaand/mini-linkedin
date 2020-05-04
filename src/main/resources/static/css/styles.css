@@ -28,6 +28,17 @@ body {
 	color:white;
 }
 
+#signup.container {
+	background-color: #f8f8f8;
+	padding: 15px;
+	margin: 20px;
+	border-radius: 5px;
+	color: grey;
+}
+
+input {
+	color: black;
+}
 
 h1 {
 	font-weight: 700;
