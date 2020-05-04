@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous" />
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" crossorigin="anonymous" />
 	<link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" />
-	<link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"  />
+        <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"  />
 </head>
 <body>
 	<nav class="navbar navbar-default">
@@ -20,7 +20,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Pointy Professionals</a>
+      <a class="navbar-brand" th:href="@{/}">Pointy Professionals</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -46,7 +46,7 @@
 					<h3>The Only Spike-friendly Resume App</h3>
                                       <hr></hr>
 					<a th:href="@{/signup}"><button class="btn-default btn-lg"><i class=></i>Sign up</button></a>
-          <a th:href="@{/profile}"><button class="btn-default btn-lg"><i class=></i>Log in</button></a>
+          <a th:href="@{/me}"><button class="btn-default btn-lg"><i class=></i>Log in</button></a>
 				</div>
 			</div>
 		</div>
