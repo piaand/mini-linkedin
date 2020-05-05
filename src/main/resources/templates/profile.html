@@ -26,7 +26,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a th:href="@{/}">Home</a></li>
+        <li class="active"><a th:href="@{/me}">Home</a></li>
         <li><a href="https://github.com/piaand/mini-linkedin">About</a></li>
         <li><a href="#">Search</a></li>
       </ul>
@@ -39,8 +39,18 @@
 </nav>
 	<div class="container">
     <h1>Hello!</h1>
-    <h1 th:text="${name}">Name</h1>
-		<p>Secret!</p>
+    <h1 th:text="${account.name}">Name</h1>
+    <p>Secret!</p>
+    <span th:if="${account.picture == null}">
+        <img th:src="@{/images/sonic_hog.jpg}" alt="Profile Picture" width="400" height="200"/>
+    </span>
+    <span th:unless="${account.picture == null}">
+      <p>You should see your own picture!</p>
+    </span>
+    <form th:action="@{/profile-picture}" method="POST" enctype="multipart/form-data">
+      <input type="file" name="picture" />
+      <button type="submit" class="btn btn-primary">Change your profile picture</button>
+  </form>
   </div>
 	<script src="https://code.jquery.com/jquery-3.4.0.js"
   	crossorigin="anonymous"></script>

@@ -5,6 +5,7 @@
  */
 package projekti;
 
+import java.io.IOException;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.Valid;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -71,6 +73,22 @@ public class SignupController {
         
         signupService.createNewAccount(signup);
         return "redirect:/";
+    }
+    
+    @PostMapping("/profile-picture")
+    public String savePicture(@RequestParam("picture") MultipartFile file) throws IOException {
+        try {
+            if (!file.getContentType().equals("image/jpeg")) {
+                return "redirect:/me";
+            }
+
+            signupService.saveProfilePicture(file.getBytes());
+            return "redirect:/me";
+        } catch (IOException e) {
+            System.out.print(e);
+            return "redirect:/me";
+        }
+        
     }
 }
 
