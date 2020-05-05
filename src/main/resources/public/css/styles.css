@@ -21,7 +21,7 @@ html {
 }
 
 body {
-	background: url("selfie_hog.jpg"); 
+	background: url("../images/selfie_hog.jpg"); 
 	background-size: cover;
 	background-position: center;
 	font-family: Lato;

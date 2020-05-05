@@ -39,8 +39,14 @@
 </nav>
 	<div class="container">
     <h1>Hello!</h1>
-    <h1 th:text="${name}">Name</h1>
-		<p>Secret!</p>
+    <h1 th:text="${account.name}">Name</h1>
+    <p>Secret!</p>
+    <span th:if="${account.picture == null}">
+        <img th:src="@{/images/sonic_hog.jpg}" alt="Profile Picture" width="400" height="200"/>
+    </span>
+    <span th:unless="${account.picture == null}">
+      <p>You should see your own picture!</p>
+    </span>
   </div>
 	<script src="https://code.jquery.com/jquery-3.4.0.js"
   	crossorigin="anonymous"></script>
