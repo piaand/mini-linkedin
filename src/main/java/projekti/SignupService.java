@@ -24,6 +24,7 @@ public class SignupService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     
+    
     public String getProfilePath() {
         String profile_path;
         
@@ -45,10 +46,19 @@ public class SignupService {
     }
     
     @Transactional
-    public void createNewAccount(String name, String username, String password, String profile) {
+    public void createNewAccount(SignupForm signup) {
         
-        byte [] picture = new byte[0];
-        Account new_account = new Account(name, username, passwordEncoder.encode(password), profile, picture);
+        Account new_account = new Account();
+        new_account.setName(signup.getName());
+        new_account.setUsername(signup.getUsername());
+        new_account.setProfile(signup.getProfile());
+        new_account.setPassword(passwordEncoder.encode(signup.getPassword()));
+
         accountRepository.save(new_account);
+       
     }
 }
+/*
+String name, String username, String password, String profile
+Account new_account = new Account(name, username, passwordEncoder.encode(password), profile, picture);
+*/

@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import javax.validation.Valid;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 /**
  *
@@ -54,18 +57,27 @@ public class SignupController {
     }
     
     @PostMapping("/signup")
-    public String signupUser(
-            @RequestParam String name,
-            @RequestParam String password,
-            @RequestParam String username,
-            @RequestParam String profile) {
-        
-        Account account = signupService.getAccountByUsername(username);
-        if (account != null) {
-            return "redirect:/";
+    public String signupUser(@Valid @ModelAttribute SignupForm signup, BindingResult bindingResult) {
+        String old_name;
+        if (bindingResult.hasErrors()) {
+            return "redirect:/signup";
         }
         
-        signupService.createNewAccount(name, username, password, profile);
+        old_name = signup.getUsername();
+        Account old_account = signupService.getAccountByUsername(old_name);
+        if (old_account != null) {
+            return "redirect:/signup";
+        }
+        
+        signupService.createNewAccount(signup);
         return "redirect:/";
     }
 }
+
+/*
+Account account = signupService.getAccountByUsername(username);
+@RequestParam String name,
+            @RequestParam String password,
+            @RequestParam String username,
+            @RequestParam String profile
+*/

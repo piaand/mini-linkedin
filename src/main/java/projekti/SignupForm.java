@@ -3,28 +3,36 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package projekti;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author piaandersin
  */
 
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.AbstractPersistable;
- 
-@Entity
 @Data @AllArgsConstructor @NoArgsConstructor
-public class Account extends AbstractPersistable<Long> {
+public class SignupForm  {
     
+    @NotNull
+    @Size(min=2, max=50)
     private String name;
+    
+    @NotNull
+    @Size(min=2, max=50)
     private String username;
+    
+    @NotNull
+    @Size(min=2, max=50)
     private String password;
+    
+    @NotNull
+    @Size(min=2, max=50)
     private String profile;
-    private byte[] picture;
+    
 }
