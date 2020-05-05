@@ -51,7 +51,10 @@
     <form th:action="@{/profile-picture}" method="POST" enctype="multipart/form-data">
       <input type="file" name="picture" />
       <button type="submit" class="btn btn-primary">Change your profile picture</button>
-  </form>
+    </form>
+    <form th:action="@{/profile-picture/{profile}/delete(profile=${account.profile})}" method="POST" enctype="multipart/form-data">
+      <button type="submit" class="btn btn-primary">Delete your profile picture</button>
+    </form>
   </div>
 	<script src="https://code.jquery.com/jquery-3.4.0.js"
   	crossorigin="anonymous"></script>

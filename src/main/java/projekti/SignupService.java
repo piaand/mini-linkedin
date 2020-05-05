@@ -67,4 +67,9 @@ public class SignupService {
         Account account = getAuthAccount();
         account.setPicture(picture);
     }
+    
+    @Transactional
+    public void deleteProfilePicture(Account account) {
+        account.setPicture(null);
+    }
 }

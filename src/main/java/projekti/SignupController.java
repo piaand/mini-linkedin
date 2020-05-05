@@ -90,17 +90,16 @@ public class SignupController {
             signupService.saveProfilePicture(file.getBytes());
             return "redirect:/me";
         } catch (IOException e) {
-            System.out.print(e);
             return "redirect:/me";
         }
         
     }
-}
+    
+    @PostMapping("/profile-picture/{profile}/delete")
+    public String deletePicture(@PathVariable String profile) {
+            Account account = signupService.getAccountByProfile(profile);
 
-/*
-Account account = signupService.getAccountByUsername(username);
-@RequestParam String name,
-            @RequestParam String password,
-            @RequestParam String username,
-            @RequestParam String profile
-*/
+            signupService.deleteProfilePicture(account);
+            return "redirect:/me";
+    }
+}
