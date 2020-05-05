@@ -21,11 +21,16 @@ html {
 }
 
 body {
-	background: url("selfie_hog.jpg"); 
+	background: url("../images/selfie_hog.jpg"); 
 	background-size: cover;
 	background-position: center;
 	font-family: Lato;
 	color:white;
+}
+
+body.profile {
+	background-color: #f8f8f8;
+	background: #f8f8f8;
 }
 
 #signup.container {

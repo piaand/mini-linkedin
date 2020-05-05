@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  *
@@ -48,7 +49,11 @@ public class SignupController {
             return "redirect:/";
             //future throw exception
         }
-        model.addAttribute("name", account.getName());
+        
+        byte[] imageInByte = account.getPicture();
+        String image_string = Base64.encodeBase64String(imageInByte);
+        model.addAttribute("account", account);
+        model.addAttribute("image", image_string);
         return "profile";
     }
     
