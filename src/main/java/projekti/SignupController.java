@@ -46,7 +46,7 @@ public class SignupController {
             return "redirect:/";
             //future throw exception
         }
-        model.addAttribute("name", account.getName());
+        model.addAttribute("account", account);
         return "profile";
     }
     
