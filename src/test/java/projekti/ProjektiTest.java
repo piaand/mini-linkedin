@@ -50,4 +50,5 @@ public class ProjektiTest extends org.fluentlenium.adapter.junit.FluentTest {
         find("button").click();
         assertTrue(pageSource().contains("Secret!"));
     }
+    
 }

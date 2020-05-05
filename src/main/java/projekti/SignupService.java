@@ -9,6 +9,7 @@ package projekti;
  *
  * @author piaandersin
  */
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -55,7 +56,11 @@ public class SignupService {
         Account new_account = new Account();
         new_account.setName(signup.getName());
         new_account.setUsername(signup.getUsername());
-        new_account.setProfile(signup.getProfile());
+        
+        String profile = signup.getProfile() + "-";
+        String id = UUID.randomUUID().toString().substring(0,6);
+        new_account.setProfile(profile + id);
+        
         new_account.setPassword(passwordEncoder.encode(signup.getPassword()));
 
         accountRepository.save(new_account);
@@ -64,7 +69,7 @@ public class SignupService {
     
     @Transactional
     public void saveProfilePicture(byte[] picture) {
-        Account account = getAuthAccount();
+        Account account = getAuthAccount(); //change this to giving account, not calling it
         account.setPicture(picture);
     }
     

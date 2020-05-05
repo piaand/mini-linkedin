@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Basic;
 import javax.persistence.FetchType;
+import javax.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,8 @@ public class Account extends AbstractPersistable<Long> {
     private String name;
     private String username;
     private String password;
+    
+    @Column(name="profile", unique=true)
     private String profile;
     
     @Lob
