@@ -13,6 +13,8 @@ package projekti;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.Basic;
+import javax.persistence.FetchType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,5 +28,8 @@ public class Account extends AbstractPersistable<Long> {
     private String username;
     private String password;
     private String profile;
+    
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     private byte[] picture;
 }

@@ -28,6 +28,11 @@ body {
 	color:white;
 }
 
+body.profile {
+	background-color: #CFD1D3;
+	background: #CFD1D3;
+}
+
 #signup.container {
 	background-color: #f8f8f8;
 	padding: 15px;

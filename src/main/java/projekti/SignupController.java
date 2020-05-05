@@ -5,6 +5,7 @@
  */
 package projekti;
 
+import java.io.IOException;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.Valid;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.multipart.MultipartFile;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  *
@@ -46,7 +49,11 @@ public class SignupController {
             return "redirect:/";
             //future throw exception
         }
+        
+        byte[] imageInByte = account.getPicture();
+        String image_string = Base64.encodeBase64String(imageInByte);
         model.addAttribute("account", account);
+        model.addAttribute("image", image_string);
         return "profile";
     }
     
@@ -72,12 +79,27 @@ public class SignupController {
         signupService.createNewAccount(signup);
         return "redirect:/";
     }
-}
+    
+    @PostMapping("/profile-picture")
+    public String savePicture(@RequestParam("picture") MultipartFile file) throws IOException {
+        try {
+            if (!file.getContentType().equals("image/jpeg")) {
+                return "redirect:/me";
+            }
 
-/*
-Account account = signupService.getAccountByUsername(username);
-@RequestParam String name,
-            @RequestParam String password,
-            @RequestParam String username,
-            @RequestParam String profile
-*/
+            signupService.saveProfilePicture(file.getBytes());
+            return "redirect:/me";
+        } catch (IOException e) {
+            return "redirect:/me";
+        }
+        
+    }
+    
+    @PostMapping("/profile-picture/{profile}/delete")
+    public String deletePicture(@PathVariable String profile) {
+            Account account = signupService.getAccountByProfile(profile);
+
+            signupService.deleteProfilePicture(account);
+            return "redirect:/me";
+    }
+}
