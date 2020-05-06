@@ -48,11 +48,11 @@
       <p>You should see your own picture!</p>
       <img th:src="*{'data:image/jpg;base64,'+ image}" alt="Profile Picture" width="400" height="200" />
     </span>
-    <form th:action="@{/profile-picture}" method="POST" enctype="multipart/form-data">
+    <form th:action="@{/profile/{profile}/profile-picture(profile=${account.profile})}" method="POST" enctype="multipart/form-data">
       <input type="file" name="picture" />
       <button type="submit" class="btn btn-primary">Change your profile picture</button>
     </form>
-    <form th:action="@{/profile-picture/{profile}/delete(profile=${account.profile})}" method="POST" enctype="multipart/form-data">
+    <form th:action="@{/profile/{profile}/profile-picture/delete(profile=${account.profile})}" method="POST" enctype="multipart/form-data">
       <button type="submit" class="btn btn-primary">Delete your profile picture</button>
     </form>
   </div>

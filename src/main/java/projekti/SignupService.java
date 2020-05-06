@@ -44,6 +44,11 @@ public class SignupService {
         return profile_path;
     }
     
+    public Account getAccountById (Long id) {
+        Account account = accountRepository.getOne(id);
+        return account;
+    }
+    
     public Account getAccountByProfile (String profile) {
         Account account = accountRepository.findByProfile(profile);
         return account;
@@ -72,8 +77,7 @@ public class SignupService {
     }
     
     @Transactional
-    public void saveProfilePicture(byte[] picture) {
-        Account account = getAuthAccount(); //change this to giving account, not calling it
+    public void saveProfilePicture(byte[] picture, Account account) {
         account.setPicture(picture);
     }
     

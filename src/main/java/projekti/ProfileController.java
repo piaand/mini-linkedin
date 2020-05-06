@@ -24,14 +24,15 @@ public class ProfileController {
     @Autowired
     private SignupService signupService;
     
-    @PostMapping("/profile-picture")
-    public String savePicture(@RequestParam("picture") MultipartFile file) throws IOException {
+    @PostMapping("/profile/{profile}/profile-picture")
+    public String savePicture(@RequestParam("picture") MultipartFile file, @PathVariable String profile) throws IOException {
         try {
             if (!file.getContentType().equals("image/jpeg")) {
                 return "redirect:/me";
             }
-
-            signupService.saveProfilePicture(file.getBytes());
+            
+            Account account = signupService.getAccountByProfile(profile);
+            signupService.saveProfilePicture(file.getBytes(), account);
             return "redirect:/me";
         } catch (IOException e) {
             return "redirect:/me";
@@ -39,7 +40,7 @@ public class ProfileController {
         
     }
     
-    @PostMapping("/profile-picture/{profile}/delete")
+    @PostMapping("/profile/{profile}/profile-picture/delete")
     public String deletePicture(@PathVariable String profile) {
             Account account = signupService.getAccountByProfile(profile);
 
