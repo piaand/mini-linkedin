@@ -10,6 +10,7 @@ package projekti;
  * @author piaandersin
  */
 import java.util.UUID;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +22,9 @@ import javax.transaction.Transactional;
 public class SignupService {
     @Autowired
     private AccountRepository accountRepository;
+    
+    @Autowired
+    private SkillRepository skillRepository;
     
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -76,5 +80,10 @@ public class SignupService {
     @Transactional
     public void deleteProfilePicture(Account account) {
         account.setPicture(null);
+    }
+    
+    public List <Skill> getAllUserSkills(Account account) {
+        List<Skill> skills = skillRepository.findByAccount(account);
+        return skills;
     }
 }

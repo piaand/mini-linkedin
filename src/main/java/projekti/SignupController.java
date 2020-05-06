@@ -52,8 +52,10 @@ public class SignupController {
         
         byte[] imageInByte = account.getPicture();
         String image_string = Base64.encodeBase64String(imageInByte);
+
         model.addAttribute("account", account);
         model.addAttribute("image", image_string);
+        model.addAttribute("skills", signupService.getAllUserSkills(account));
         return "profile";
     }
     
@@ -79,27 +81,5 @@ public class SignupController {
         signupService.createNewAccount(signup);
         return "redirect:/";
     }
-    
-    @PostMapping("/profile-picture")
-    public String savePicture(@RequestParam("picture") MultipartFile file) throws IOException {
-        try {
-            if (!file.getContentType().equals("image/jpeg")) {
-                return "redirect:/me";
-            }
-
-            signupService.saveProfilePicture(file.getBytes());
-            return "redirect:/me";
-        } catch (IOException e) {
-            return "redirect:/me";
-        }
-        
-    }
-    
-    @PostMapping("/profile-picture/{profile}/delete")
-    public String deletePicture(@PathVariable String profile) {
-            Account account = signupService.getAccountByProfile(profile);
-
-            signupService.deleteProfilePicture(account);
-            return "redirect:/me";
-    }
+   
 }
