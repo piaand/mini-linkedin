@@ -32,6 +32,8 @@ public class Account extends AbstractPersistable<Long> {
     @Column(name="profile", unique=true)
     private String profile;
     
+    
+    //@Lob annotation is not supported by Heroku Postgres
     @Column(length = 16000000)
     @Basic(fetch = FetchType.LAZY)
     private byte[] picture;
