@@ -24,6 +24,9 @@ public class ProfileController {
     @Autowired
     private SignupService signupService;
     
+    @Autowired
+    private SkillService skillService;
+    
     @PostMapping("/profile/{profile}/profile-picture")
     public String savePicture(@RequestParam("picture") MultipartFile file, @PathVariable String profile) throws IOException {
         try {
@@ -45,6 +48,14 @@ public class ProfileController {
             Account account = signupService.getAccountByProfile(profile);
 
             signupService.deleteProfilePicture(account);
+            return "redirect:/me";
+    }
+    
+    @PostMapping("/profile/{profile}/skill")
+    public String addSkill(@PathVariable String profile, @RequestParam String skill) {
+            Account account = signupService.getAccountByProfile(profile);
+            
+            skillService.addNewSkill(account, skill);
             return "redirect:/me";
     }
 }

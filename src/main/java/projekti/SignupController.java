@@ -29,6 +29,9 @@ public class SignupController {
     @Autowired
     private SignupService signupService;
     
+    @Autowired
+    private SkillService skillService;
+    
     @GetMapping("/")
     public String getIndex() {
         return "index";
@@ -55,7 +58,7 @@ public class SignupController {
 
         model.addAttribute("account", account);
         model.addAttribute("image", image_string);
-        model.addAttribute("skills", signupService.getAllUserSkills(account));
+        model.addAttribute("skills", skillService.getAllUserSkills(account));
         return "profile";
     }
     

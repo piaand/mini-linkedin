@@ -67,6 +67,10 @@
       </ul>
       <p>Showing some skills</p>
     </span>
+    <form th:action="@{/profile/{profile}/skill(profile=${account.profile})}" method="POST">
+      <input type="text" name="skill" placeholder="Name your skill"/>
+      <button type="submit" class="btn btn-primary">Add a skill</button>
+    </form>
   </div>
 	<script src="https://code.jquery.com/jquery-3.4.0.js"
   	crossorigin="anonymous"></script>

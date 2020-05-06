@@ -11,13 +11,16 @@ package projekti;
  * @author piaandersin
  */
 
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Basic;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import javax.persistence.CascadeType;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.AbstractPersistable;
  
@@ -32,6 +35,8 @@ public class Account extends AbstractPersistable<Long> {
     @Column(name="profile", unique=true)
     private String profile;
     
+    @ManyToMany(cascade = {CascadeType.ALL})
+    private List<Skill> skills;
     
     //@Lob annotation is not supported by Heroku Postgres
     @Column(length = 16000000)
