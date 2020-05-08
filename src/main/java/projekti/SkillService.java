@@ -45,6 +45,11 @@ public class SkillService {
         return exists;
     }
     
+    public List <Skill> getAllSkills() {
+        List<Skill> skills = skillRepository.findAll();
+        return skills;
+    }
+    
     public List <Skill> getAllUserSkills(Account account) {
         List<Skill> skills = account.getSkills();
         return skills;
@@ -79,7 +84,7 @@ public class SkillService {
         List <Skill> skills = account.getSkills();
         
         for (Skill skill : skills) {
-            if (skill.getId() == skill_id) {
+            if (skill.getId().equals(skill_id)) {
                 skills.remove(skill);
                 break;
             }

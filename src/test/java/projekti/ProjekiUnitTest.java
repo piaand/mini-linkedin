@@ -10,6 +10,7 @@ package projekti;
  * @author piaandersin
  */
 import java.util.List;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Random;
 import org.junit.Test;
@@ -25,14 +26,50 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ProjekiUnitTest {
+    private String name1 = "Olavi Uusivirta";
+    private String username1 = "olleee";
+    private String password1 = "raivo_harka";
+    private String profile1 = "olavi-uusivirta";
+    private String name2 = "Touko Aalto";
+    private String username2 = "toukonen";
+    private String password2 = "vihreat";
+    private String profile2 = "touko-aalto";
+    
     @Autowired
     SignupService signupService;
     
     @Autowired
     AccountRepository accountRepository;
     
+    @Autowired
+    SkillService skillService;
+    
     private void initRepository() {
         accountRepository.deleteAll();
+    }
+    
+    private void initUser2() {
+        String name = name2;
+        String username = username2;
+        String password = password2;
+        String profile = profile2;
+        byte[] image = new byte[20];
+        new Random().nextBytes(image);
+        
+        SignupForm signup = new SignupForm(name, username, password, profile);
+        signupService.createNewAccount(signup);
+    }
+    
+    private void initUser1() {
+        String name = name1;
+        String username = username1;
+        String password = password1;
+        String profile = profile1;
+        byte[] image = new byte[20];
+        new Random().nextBytes(image);
+        
+        SignupForm signup = new SignupForm(name, username, password, profile);
+        signupService.createNewAccount(signup);
     }
     
     @Test
@@ -43,48 +80,33 @@ public class ProjekiUnitTest {
     
     @Test
     public void testFindProfile() {
-        String name = "Olavi Uusivirta";
-        String username = "olleee";
-        String password = "raivo_harka";
-        String profile = "olavi-uusivirta";
-        byte[] image = new byte[20];
-        new Random().nextBytes(image);
         
         testRepoEmpty();
+        assertNull(accountRepository.findByUsername(username1));
+        assertNull(accountRepository.findByProfile(username1));
         
-        SignupForm signup = new SignupForm(name, username, password, profile);
-        assertNull(accountRepository.findByUsername(username));
-        assertNull(accountRepository.findByProfile(username));
-        signupService.createNewAccount(signup);
+        initUser1();
         assertEquals(1, accountRepository.count());
-        Account account = accountRepository.findByUsername(username);
-        Account same_account = accountRepository.findByProfile(profile);
-        assertEquals(name, account.getName());
+        Account account = accountRepository.findByUsername(username1);
+        Account same_account = accountRepository.findByProfile(profile1);
+        assertEquals(name1, account.getName());
         assertNull(account.getPicture());
         assertNull(same_account);
     }
     
     @Test
     public void testProfilePicInit() {
-        String name = "Olavi Uusivirta";
-        String username = "olleee";
-        String password = "raivo_harka";
-        String profile = "olavi-uusivirta";
-        byte[] image = new byte[20];
-        new Random().nextBytes(image);
-        
         testRepoEmpty();
+        initUser1();
         
-        SignupForm signup = new SignupForm(name, username, password, profile);
-        signupService.createNewAccount(signup);
         assertEquals(1, accountRepository.count());
-        Account account = accountRepository.findByUsername(username);
+        Account account = accountRepository.findByUsername(username1);
         assertNull(account.getPicture());
     }
     
     @Test
     public void testDifferentProfileStrings() {
-    String name = "Olavi Uusivirta";
+        String name = "Olavi Uusivirta";
         String username = "olleee";
         String password = "raivo_harka";
         String profile = "olavi-uusivirta";
@@ -118,5 +140,42 @@ public class ProjekiUnitTest {
            }
         }
         assertFalse(same);
+    }
+    
+    @Test
+    @Transactional
+    public void addSkill() {
+        String skill1_name = "cleaning";
+        String skill2_name = "napping";
+        String skill3_name = "battling snakes";
+        int size;
+        
+        testRepoEmpty();
+        initUser1();
+        
+        Account account = accountRepository.findByUsername(username1);
+        assertEquals(account.getName(), name1);
+        List <Skill> skills = skillService.getAllUserSkills(account);
+        assertTrue(skills.isEmpty());
+        assertTrue(skillService.getAllSkills().isEmpty());
+        
+        skillService.addNewSkill(account, skill1_name);
+        skills = account.getSkills();
+        assertFalse(skills.isEmpty());
+        assertFalse(skillService.getAllSkills().isEmpty());
+        
+        initUser2();
+        Account account2 = accountRepository.findByUsername(username2);
+        assertEquals(account2.getName(), name2);
+        List <Skill> skills2 = skillService.getAllUserSkills(account2);
+        assertTrue(skills2.isEmpty());
+        assertFalse(skillService.getAllSkills().isEmpty());
+        
+        size = skillService.getAllSkills().size();
+        skillService.addNewSkill(account2, skill1_name);
+        skills2 = account2.getSkills();
+        assertEquals(size, skillService.getAllSkills().size());
+        assertFalse(skills2.isEmpty());
+        
     }
 }

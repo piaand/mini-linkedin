@@ -12,6 +12,7 @@ package projekti;
  */
 
 import java.util.List;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Basic;
@@ -36,7 +37,7 @@ public class Account extends AbstractPersistable<Long> {
     private String profile;
     
     @ManyToMany(cascade = {CascadeType.ALL})
-    private List<Skill> skills;
+    private List<Skill> skills = new ArrayList<>();
     
     //@Lob annotation is not supported by Heroku Postgres
     @Column(length = 16000000)

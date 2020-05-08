@@ -57,11 +57,6 @@ public class SignupService {
         return account;
     }
     
-    public void initSkills(Account account) {
-        List <Skill> skill_list = new ArrayList<>();
-        account.setSkills(skill_list);
-    }
-    
     @Transactional
     public void createNewAccount(SignupForm signup) {
         
@@ -72,7 +67,6 @@ public class SignupService {
         String profile = signup.getProfile() + "-";
         String id = UUID.randomUUID().toString().substring(0,6);
         new_account.setProfile(profile + id);
-        initSkills(new_account);
         
         new_account.setPassword(passwordEncoder.encode(signup.getPassword()));
 
