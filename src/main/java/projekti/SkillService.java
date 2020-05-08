@@ -7,6 +7,7 @@ package projekti;
 
 import java.util.List;
 import java.util.ArrayList;
+import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
@@ -28,7 +29,7 @@ public class SkillService {
     private String trim_skill(String skill) {
         String trimmed;
         
-        if ((skill == null) || (skill.isBlank()))  {
+        if ((skill == null) || !(skill.trim().length() > 0))  {
             return null;
         } else {
             trimmed = skill.trim().toLowerCase();
