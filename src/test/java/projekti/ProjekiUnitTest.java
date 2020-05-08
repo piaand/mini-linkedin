@@ -178,4 +178,5 @@ public class ProjekiUnitTest {
         assertFalse(skills2.isEmpty());
         
     }
+    
 }

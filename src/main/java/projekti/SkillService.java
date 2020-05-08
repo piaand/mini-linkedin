@@ -26,9 +26,14 @@ public class SkillService {
     private AccountRepository accountRepository;
     
     private String trim_skill(String skill) {
+        String trimmed;
         
-        //trim the string
-        return skill;
+        if ((skill == null) || (skill.isBlank()))  {
+            return null;
+        } else {
+            trimmed = skill.trim().toLowerCase();
+            return trimmed;
+        }
     }
     
     private boolean accountHasSkill(Account account, String skill) {
@@ -65,6 +70,9 @@ public class SkillService {
     @Transactional
     public void addNewSkill(Account account, String skill) {
         String skill_trimmed = trim_skill(skill);
+        if (skill_trimmed == null) {
+            //do nothing
+        } else {
         boolean is = accountHasSkill(account, skill_trimmed);
         if (!is) {
             Skill existing_skill = skillRepository.findByName(skill_trimmed);
@@ -76,6 +84,7 @@ public class SkillService {
                 account.getSkills().add(existing_skill);
                 accountRepository.save(account);
             }
+        }
         }
     }
     
