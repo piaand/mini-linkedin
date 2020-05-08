@@ -41,7 +41,7 @@ body.profile {
 	color: grey;
 }
 
-#hideable {
+.hideable {
 	display: none;
 }
 
