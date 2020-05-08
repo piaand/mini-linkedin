@@ -48,12 +48,31 @@
       <p>You should see your own picture!</p>
       <img th:src="*{'data:image/jpg;base64,'+ image}" alt="Profile Picture" width="400" height="200" />
     </span>
-    <form th:action="@{/profile-picture}" method="POST" enctype="multipart/form-data">
+    <form th:action="@{/profile/{profile}/profile-picture(profile=${account.profile})}" method="POST" enctype="multipart/form-data">
       <input type="file" name="picture" />
       <button type="submit" class="btn btn-primary">Change your profile picture</button>
     </form>
-    <form th:action="@{/profile-picture/{profile}/delete(profile=${account.profile})}" method="POST" enctype="multipart/form-data">
+    <form th:action="@{/profile/{profile}/profile-picture/delete(profile=${account.profile})}" method="POST">
       <button type="submit" class="btn btn-primary">Delete your profile picture</button>
+    </form>
+  </div>
+  <div class ="container">
+    <h3>Your skills:</h3>
+    <span th:if="${skills.empty}">
+        <p>You haven't listed any skills!</p>
+    </span>
+    <span th:unless="${skills.empty}">
+      <ul th:each="skill: ${skills}">
+        <li th:text="${skill.name}"></li>
+        <form th:action="@{/profile/{profile}/skills/{id}/delete(profile=${account.profile},id=${skill.id})}" method="POST">
+          <button type="submit" class="btn btn-primary">Delete this skill</button>
+        </form>
+      </ul>
+      <p>Showing some skills</p>
+    </span>
+    <form th:action="@{/profile/{profile}/skills(profile=${account.profile})}" method="POST">
+      <input type="text" name="skill" placeholder="Name your skill"/>
+      <button type="submit" class="btn btn-primary">Add a skill</button>
     </form>
   </div>
 	<script src="https://code.jquery.com/jquery-3.4.0.js"
