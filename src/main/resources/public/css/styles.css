@@ -41,6 +41,10 @@ body.profile {
 	color: grey;
 }
 
+#hideable {
+	display: none;
+}
+
 input {
 	color: black;
 }
