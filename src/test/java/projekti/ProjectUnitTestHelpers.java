@@ -50,6 +50,7 @@ public class ProjectUnitTestHelpers {
         
         
         //trim_skill need to be set to public for this
+        //maybe equalsIgnoringCase?
         skill = skillService.trim_skill(skill2_name);
         assertTrue(skill2_name.equals(skill2_name));
         assertNotNull(skill);
