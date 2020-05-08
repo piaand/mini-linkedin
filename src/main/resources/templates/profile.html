@@ -52,7 +52,7 @@
       <input type="file" name="picture" />
       <button type="submit" class="btn btn-primary">Change your profile picture</button>
     </form>
-    <form th:action="@{/profile/{profile}/profile-picture/delete(profile=${account.profile})}" method="POST" enctype="multipart/form-data">
+    <form th:action="@{/profile/{profile}/profile-picture/delete(profile=${account.profile})}" method="POST">
       <button type="submit" class="btn btn-primary">Delete your profile picture</button>
     </form>
   </div>
@@ -63,11 +63,14 @@
     </span>
     <span th:unless="${skills.empty}">
       <ul th:each="skill: ${skills}">
-        <li th:text="${skill.name}">
+        <li th:text="${skill.name}"></li>
+        <form th:action="@{/profile/{profile}/skills/{id}/delete(profile=${account.profile},id=${skill.id})}" method="POST">
+          <button type="submit" class="btn btn-primary">Delete this skill</button>
+        </form>
       </ul>
       <p>Showing some skills</p>
     </span>
-    <form th:action="@{/profile/{profile}/skill(profile=${account.profile})}" method="POST">
+    <form th:action="@{/profile/{profile}/skills(profile=${account.profile})}" method="POST">
       <input type="text" name="skill" placeholder="Name your skill"/>
       <button type="submit" class="btn btn-primary">Add a skill</button>
     </form>

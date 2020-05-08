@@ -51,11 +51,19 @@ public class ProfileController {
             return "redirect:/me";
     }
     
-    @PostMapping("/profile/{profile}/skill")
+    @PostMapping("/profile/{profile}/skills")
     public String addSkill(@PathVariable String profile, @RequestParam String skill) {
             Account account = signupService.getAccountByProfile(profile);
             
             skillService.addNewSkill(account, skill);
+            return "redirect:/me";
+    }
+    
+    @PostMapping("/profile/{profile}/skills/{id}/delete")
+    public String deleteSkillFromProfile(@PathVariable String profile, @PathVariable Long id) {
+            Account account = signupService.getAccountByProfile(profile);
+            
+            skillService.deleteOldSkill(account, id);
             return "redirect:/me";
     }
 }

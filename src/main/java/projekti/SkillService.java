@@ -73,4 +73,18 @@ public class SkillService {
             }
         }
     }
+    
+    @Transactional
+    public void deleteOldSkill(Account account, Long skill_id) {
+        List <Skill> skills = account.getSkills();
+        
+        for (Skill skill : skills) {
+            if (skill.getId() == skill_id) {
+                skills.remove(skill);
+                break;
+            }
+        }
+        
+        accountRepository.save(account);
+    }
 }
