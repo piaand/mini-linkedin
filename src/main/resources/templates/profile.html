@@ -60,7 +60,7 @@
       </ul>
       <p>Showing some skills</p>
     </span>
-    <a th:href="@{/me/settings}"><button class="btn btn-primary">Alter your profile</button></a>
+    <span th:if="${#authentication.name } == ${account.username}"><a th:href="@{/me/settings}"><button class="btn btn-primary">Alter your profile</button></a></span>
   </div>
 	<script src="https://code.jquery.com/jquery-3.4.0.js"
   	crossorigin="anonymous"></script>
