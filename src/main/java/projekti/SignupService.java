@@ -34,11 +34,18 @@ public class SignupService {
         return account;
     }
     
+    public String getAuthProfileString() {
+        String profile_string;
+        
+        Account account = getAuthAccount();
+        profile_string = account.getProfile();
+        return profile_string;
+    }
+    
     public String getProfilePath() {
         String profile_path;
         
-        Account account = getAuthAccount();
-        profile_path = "/profile/" + account.getProfile();
+        profile_path = "/profile/" + getAuthProfileString();
         return profile_path;
     }
     

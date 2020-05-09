@@ -45,6 +45,14 @@ public class SignupController {
         return "redirect:"+profile_path;
     }
     
+    @GetMapping("/me/settings")
+    public String getModifyProfile() {
+        String profile = signupService.getAuthProfileString();
+        
+        String profile_path = "/profile/" + profile + "/settings";
+        return  "redirect:"+profile_path;
+    }
+    
     @GetMapping("/profile/{profile}")
     public String getProfile(@PathVariable String profile, Model model) {
         Account account = signupService.getAccountByProfile(profile);
