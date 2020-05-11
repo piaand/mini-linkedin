@@ -70,26 +70,29 @@ public class SignupController {
         return "profile";
     }
     
+    @ModelAttribute
+    private SignupForm getSignupForm() {
+        return new SignupForm();
+    }
+    
     @GetMapping("/signup")
-    public String getSignup() {
-        
+    public String view() {
+ 
         return "signup";
     }
     
     @PostMapping("/signup")
-    public String signupUser(@Valid @ModelAttribute SignupForm signup, BindingResult bindingResult) {
-        String old_name;
+    public String signupUser(@Valid @ModelAttribute SignupForm signupform, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "redirect:/signup";
+            return "signup";
         }
-        
-        old_name = signup.getUsername();
+        String old_name = signupform.getUsername();
         Account old_account = signupService.getAccountByUsername(old_name);
         if (old_account != null) {
             return "redirect:/signup";
         }
         
-        signupService.createNewAccount(signup);
+        signupService.createNewAccount(signupform);
         return "redirect:/";
     }
    
