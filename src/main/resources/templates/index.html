@@ -1,42 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="UTF-8"/>
-        <title>Pointy Professionals</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous" />
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" crossorigin="anonymous" />
-	<link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" />
-        <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"  />
-</head>
+<head th:replace="fragments/layout :: head"></head>
 <body>
-	<nav class="navbar navbar-default">
-  <div class="container">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" th:href="@{/}">Pointy Professionals</a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="https://github.com/piaand/mini-linkedin">About</a></li>
-        <li><a href="#">Search</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Sign up <i class="fas fa-user-plus"></i></a></li>
-        <li><a href="#">Login <i class="fas fa-user"></i></a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
+	<nav th:replace="fragments/layout :: navbar"></nav>
 
 	<div class="container">
 		<div class="row">
@@ -45,8 +11,13 @@
 					<h1>Pointy Professionals</h1>
 					<h3>The Only Spike-friendly Resume App</h3>
                                       <hr></hr>
-					<a th:href="@{/signup}"><button class="btn-default btn-lg"><i class=></i>Sign up</button></a>
-          <a th:href="@{/me}"><button class="btn-default btn-lg"><i class=></i>Log in</button></a>
+          <div sec:authorize="!isAuthenticated()">
+            <a th:href="@{/signup}"><button class="btn-default btn-lg"><i class=></i>Sign up</button></a>
+            <a th:href="@{/me}"><button class="btn-default btn-lg"><i class=></i>Log in</button></a>
+          </div>
+          <div sec:authorize="isAuthenticated()">
+            <a href="#"><button class="btn-default btn-lg"><i class=></i>See what your contacts are up to!</button></a>
+          </div>
 				</div>
 			</div>
 		</div>
