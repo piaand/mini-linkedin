@@ -104,5 +104,14 @@ public class SignupController {
            return "redirect:" + path; 
         }
     }
+    
+    @PostMapping("/contact/{sender}/{profile_target}")
+    public String sendContactRequest(@PathVariable String sender, @PathVariable String profile_target) {
+        Account requester = signupService.getAccountByUsername(sender);
+        
+        boolean added = signupService.doContactRequest(requester, profile_target);
+        String path = "/profile/" + profile_target;
+        return "redirect:" + path;
+    }
    
 }

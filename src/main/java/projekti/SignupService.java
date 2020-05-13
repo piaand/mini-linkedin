@@ -27,6 +27,9 @@ public class SignupService {
     private AccountRepository accountRepository;
     
     @Autowired
+    private RequestRepository requestRepository;
+    
+    @Autowired
     private PasswordEncoder passwordEncoder;
     
     private Account getAuthAccount() {
@@ -34,6 +37,12 @@ public class SignupService {
         String username = auth.getName();
         Account account = accountRepository.findByUsername(username);
         return account;
+    }
+    
+    @Transactional
+    private void addContactRequest(Account requester, String target) {
+        
+        requestRepository.save(new Request(requester, target, "pending"));
     }
     
     public String getAuthProfileString() {
@@ -68,7 +77,7 @@ public class SignupService {
     
     public Account getAccountByName (String name) {
         Account account = accountRepository.findByName(name);
-        return account;
+            return account;
     }
     
     @PreAuthorize("#account.username == authentication.principal.username")
@@ -105,6 +114,37 @@ public class SignupService {
     @Transactional
     public void deleteProfilePicture(Account account) {
         account.setPicture(null);
+    }
+    
+    @PreAuthorize("#requester.username == authentication.principal.username")
+    public boolean doContactRequest(Account requester, String target) {
+        List <String> targetProfiles = requestRepository.findTarget(requester);
+        Account account = accountRepository.findByProfile(target);
+        List <String> arrivingRequests = requestRepository.findTarget(account);
+        
+        boolean submitterHasRequest;
+        
+        if (arrivingRequests.contains(requester.getProfile())) {
+            Request request = requestRepository.findByTarget(requester.getProfile());
+            String status = request.getStatus();
+            if (status.equals("pending") || status.equals("accepted")) {
+                submitterHasRequest = true;
+            } else {
+                submitterHasRequest = false;
+            }
+        } else {
+            submitterHasRequest = false;
+        }
+        
+        boolean areSame = requester.getProfile().equals(target);
+        boolean requestHasBeenMade = targetProfiles.contains(target);
+        
+        if (areSame || requestHasBeenMade || submitterHasRequest) {
+            return false;
+        } else {
+            addContactRequest(requester, target);
+            return true; 
+        }
     }
     
 }

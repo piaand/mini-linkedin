@@ -27,6 +27,11 @@
       <p>Showing some skills</p>
     </span>
     <span th:if="${#authentication.name } == ${account.username}"><a th:href="@{/me/settings}"><button class="btn btn-primary">Alter your profile</button></a></span>
+    <div sec:authorize="isAuthenticated()">
+      <span th:if="${#authentication.name } != ${account.username}">
+        <form th:action="@{/contact/{sender}/{profile_target}(sender=${#authentication.name},profile_target=${account.profile})}" method="POST"><button type="submit" class="btn btn-primary">Add this user to your contact network</button></form>
+      </span>
+    </div>
   </div>
 	<span th:replace="fragments/layout :: scripting"></span>
 </body>
