@@ -125,7 +125,7 @@ public class SignupService {
         boolean submitterHasRequest;
         
         if (arrivingRequests.contains(requester.getProfile())) {
-            Request request = requestRepository.findByTarget(requester.getProfile());
+            Request request = requestRepository.findByTargetAndSubmitter(requester.getProfile(), account);
             String status = request.getStatus();
             if (status.equals("pending") || status.equals("accepted")) {
                 submitterHasRequest = true;

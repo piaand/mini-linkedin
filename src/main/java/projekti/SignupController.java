@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.apache.commons.codec.binary.Base64;
+import java.util.List;
 
 /**
  *
@@ -31,6 +32,9 @@ public class SignupController {
     
     @Autowired
     private SkillService skillService;
+    
+    @Autowired
+    private RequestService requestService;
     
     @GetMapping("/")
     public String getIndex() {
@@ -63,9 +67,11 @@ public class SignupController {
         
         byte[] imageInByte = account.getPicture();
         String image_string = Base64.encodeBase64String(imageInByte);
+        List <Request> invitations = requestService.getAccountsPendingRequest(account);
 
         model.addAttribute("account", account);
         model.addAttribute("image", image_string);
+        model.addAttribute("requests", invitations);
         model.addAttribute("skills", skillService.getAllUserSkills(account));
         return "profile";
     }
