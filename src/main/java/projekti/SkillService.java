@@ -11,7 +11,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
-
+import org.springframework.security.access.prepost.PreAuthorize;
+import java.nio.file.AccessDeniedException;
 /**
  *
  * @author piaandersin
@@ -67,28 +68,29 @@ public class SkillService {
         return new_skill;
     }
     
-    
+    @PreAuthorize("#account.username == authentication.principal.username")
     @Transactional
     public void addNewSkill(Account account, String skill) {
         String skill_trimmed = trim_skill(skill);
         if (skill_trimmed == null) {
             //do nothing
         } else {
-        boolean is = accountHasSkill(account, skill_trimmed);
-        if (!is) {
-            Skill existing_skill = skillRepository.findByName(skill_trimmed);
-            if (existing_skill == null) {
-                Skill new_skill = createNewSkill(skill_trimmed);
-                account.getSkills().add(new_skill);
-                accountRepository.save(account);
-            } else {
-                account.getSkills().add(existing_skill);
-                accountRepository.save(account);
+            boolean is = accountHasSkill(account, skill_trimmed);
+            if (!is) {
+                Skill existing_skill = skillRepository.findByName(skill_trimmed);
+                if (existing_skill == null) {
+                    Skill new_skill = createNewSkill(skill_trimmed);
+                    account.getSkills().add(new_skill);
+                    accountRepository.save(account);
+                } else {
+                    account.getSkills().add(existing_skill);
+                    accountRepository.save(account);
+                }
             }
-        }
         }
     }
     
+    @PreAuthorize("#account.username == authentication.principal.username")
     @Transactional
     public void deleteOldSkill(Account account, Long skill_id) {
         List <Skill> skills = account.getSkills();

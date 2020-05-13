@@ -18,6 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import org.apache.commons.codec.binary.Base64;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @Service
 public class SignupService {
@@ -64,6 +66,13 @@ public class SignupService {
         return account;
     }
     
+    @PreAuthorize("#account.username == authentication.principal.username")
+    public String getSettingPicture(Account account) {
+        byte[] imageInByte = account.getPicture();
+        String image_string = Base64.encodeBase64String(imageInByte);
+        return image_string;
+    }
+    
     @Transactional
     public void createNewAccount(SignupForm signup) {
         
@@ -81,11 +90,13 @@ public class SignupService {
        
     }
     
+    @PreAuthorize("#account.username == authentication.principal.username")
     @Transactional
     public void saveProfilePicture(byte[] picture, Account account) {
         account.setPicture(picture);
     }
     
+    @PreAuthorize("#account.username == authentication.principal.username")
     @Transactional
     public void deleteProfilePicture(Account account) {
         account.setPicture(null);

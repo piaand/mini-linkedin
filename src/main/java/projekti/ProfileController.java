@@ -6,6 +6,7 @@
 package projekti;
 
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.ui.Model;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 
 /**
@@ -34,9 +36,7 @@ public class ProfileController {
     @GetMapping("/profile/{profile}/settings")
     public String getSettingsPage(@PathVariable String profile, Model model) {
         Account account = signupService.getAccountByProfile(profile);
-        
-        byte[] imageInByte = account.getPicture();
-        String image_string = Base64.encodeBase64String(imageInByte);
+        String image_string = signupService.getSettingPicture(account);
         
         model.addAttribute("account", account);
         model.addAttribute("image", image_string);
