@@ -31,9 +31,11 @@ and open the template in the editor.
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                  <li class="active"><a th:href="@{/me}">Home</a></li>
+                  <li><a th:href="@{/me}">Home</a></li>
                   <li><a href="https://github.com/piaand/mini-linkedin">About</a></li>
-                  <li><a href="#">Search</a></li>
+                  <li>
+                      <div id="search-bar"><form th:action="@{/search}" method="POST"><input type="text" placeholder="Search by name" name="name"><input type="submit" style="position: absolute; left: -9999px"/></form></div>
+                  </li>
                 </ul>
                 <ul sec:authorize="!isAuthenticated()" class="nav navbar-nav navbar-right">
                   <li><a th:href="@{/signup}">Sign up <i class="fas fa-user-plus"></i></a></li>

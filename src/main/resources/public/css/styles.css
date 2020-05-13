@@ -41,9 +41,16 @@ body.profile {
 	color: grey;
 }
 
+#search-bar {
+	position: relative;
+    display: block;
+	padding: 15px;
+}
+
 #logout-button {
 	border: none;
 	color: #777;
+	background-color: transparent;
 	position: relative;
     display: block;
     padding: 15px 15px;
