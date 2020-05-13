@@ -66,6 +66,11 @@ public class SignupService {
         return account;
     }
     
+    public Account getAccountByName (String name) {
+        Account account = accountRepository.findByName(name);
+        return account;
+    }
+    
     @PreAuthorize("#account.username == authentication.principal.username")
     public String getSettingPicture(Account account) {
         byte[] imageInByte = account.getPicture();

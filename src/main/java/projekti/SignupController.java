@@ -92,5 +92,17 @@ public class SignupController {
         signupService.createNewAccount(signup);
         return "redirect:/";
     }
+    
+    @PostMapping("/search")
+    public String searchProfile(@RequestParam String name) {
+        Account account = signupService.getAccountByName(name);
+        if (account == null) {
+            return "redirect:/";
+        } else {
+           String profile = account.getProfile();
+           String path = "/profile/" + profile;
+           return "redirect:" + path; 
+        }
+    }
    
 }
