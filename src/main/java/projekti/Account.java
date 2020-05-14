@@ -44,6 +44,9 @@ public class Account extends AbstractPersistable<Long> {
     @OneToMany(mappedBy = "submitter")
     private List<Request> requests = new ArrayList<>();
     
+    @ManyToMany(cascade = {CascadeType.ALL})
+    private List<Account> contacts = new ArrayList<>();
+    
     //@Lob annotation is not supported by Heroku Postgres
     @Column(length = 16000000)
     @Basic(fetch = FetchType.LAZY)

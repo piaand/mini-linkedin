@@ -39,12 +39,6 @@ public class SignupService {
         return account;
     }
     
-    @Transactional
-    private void addContactRequest(Account requester, String target) {
-        
-        requestRepository.save(new Request(requester, target, "pending"));
-    }
-    
     public String getAuthProfileString() {
         String profile_string;
         
@@ -116,35 +110,6 @@ public class SignupService {
         account.setPicture(null);
     }
     
-    @PreAuthorize("#requester.username == authentication.principal.username")
-    public boolean doContactRequest(Account requester, String target) {
-        List <String> targetProfiles = requestRepository.findTarget(requester);
-        Account account = accountRepository.findByProfile(target);
-        List <String> arrivingRequests = requestRepository.findTarget(account);
-        
-        boolean submitterHasRequest;
-        
-        if (arrivingRequests.contains(requester.getProfile())) {
-            Request request = requestRepository.findByTargetAndSubmitter(requester.getProfile(), account);
-            String status = request.getStatus();
-            if (status.equals("pending") || status.equals("accepted")) {
-                submitterHasRequest = true;
-            } else {
-                submitterHasRequest = false;
-            }
-        } else {
-            submitterHasRequest = false;
-        }
-        
-        boolean areSame = requester.getProfile().equals(target);
-        boolean requestHasBeenMade = targetProfiles.contains(target);
-        
-        if (areSame || requestHasBeenMade || submitterHasRequest) {
-            return false;
-        } else {
-            addContactRequest(requester, target);
-            return true; 
-        }
-    }
+    
     
 }

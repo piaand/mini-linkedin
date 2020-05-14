@@ -34,7 +34,7 @@ public class SignupController {
     private SkillService skillService;
     
     @Autowired
-    private RequestService requestService;
+    private ContactService contactService;
     
     @GetMapping("/")
     public String getIndex() {
@@ -67,7 +67,7 @@ public class SignupController {
         
         byte[] imageInByte = account.getPicture();
         String image_string = Base64.encodeBase64String(imageInByte);
-        List <Request> invitations = requestService.getAccountsPendingRequest(account);
+        List <Request> invitations = contactService.getAccountsPendingRequest(account);
 
         model.addAttribute("account", account);
         model.addAttribute("image", image_string);
@@ -110,14 +110,4 @@ public class SignupController {
            return "redirect:" + path; 
         }
     }
-    
-    @PostMapping("/contact/{sender}/{profile_target}")
-    public String sendContactRequest(@PathVariable String sender, @PathVariable String profile_target) {
-        Account requester = signupService.getAccountByUsername(sender);
-        
-        boolean added = signupService.doContactRequest(requester, profile_target);
-        String path = "/profile/" + profile_target;
-        return "redirect:" + path;
-    }
-   
 }
