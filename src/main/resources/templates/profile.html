@@ -27,12 +27,22 @@
       <p>Showing some skills</p>
     </span>
     <span th:if="${#authentication.name } == ${account.username}"><a th:href="@{/me/settings}"><button class="btn btn-primary">Alter your profile</button></a></span>
-    <span th:if="${requests.empty}"></span>
-    <span th:unless="${skills.empty}">
-      <ul th:each="requests: ${request}">
-        <li ><span th:text="${request.submitter.name}">Submitter name</span> has send you a contact invitation!</li>
-      </ul>
-      <p>Showing some skills</p>
+    <span th:if="${#authentication.name } == ${account.username}">
+      <div th:if="${requests.empty}"></div>
+      <div th:unless="${requests.empty}">
+        <h3>You have pending requests!</h3>
+        <ul th:each="request: ${requests}">
+          <li><span th:text="${request.submitter.name}">Submitter name</span> is asking to be your contact!
+            <form th:action="@{/contact/{sender}/{profile_target}/add(sender=${request.submitter.username},profile_target=${account.profile})}" method="POST" >
+              <button type="submit" class="btn btn-primary">Accept as contact</button>
+            </form>
+            <form th:action="@{/contact/{sender}/{profile_target}/delete(sender=${request.submitter.username},profile_target=${account.profile})}" method="POST" >
+              <button type="submit" class="btn btn-primary">Reject contact</button>
+            </form>
+          </li>
+        </ul>
+        <p>Showing some pending contacts</p>
+      </div>
     </span>
     <div sec:authorize="isAuthenticated()">
       <span th:if="${#authentication.name } != ${account.username}">
