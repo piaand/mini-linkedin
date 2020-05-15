@@ -47,14 +47,15 @@ public class ContactController {
         String path = "/profile/" + profile_target;
         return "redirect:" + path;
     }
-    /*
+    
     @PostMapping("/contact/{sender}/{profile_target}/delete")
     public String denyRequest(@PathVariable String sender, @PathVariable String profile_target) {
         //if there is contact, deletes it. Changes status to "deleted" or "rejected"
         Account requester = signupService.getAccountByUsername(sender);
+        Account accepter = signupService.getAccountByProfile(profile_target);
         
-        boolean added = signupService.doContactRequest(requester, profile_target);
+        boolean added = contactService.deleteFromNetwork(requester, accepter);
         String path = "/profile/" + profile_target;
         return "redirect:" + path;
-    }*/
+    }
 }

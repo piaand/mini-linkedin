@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.OneToMany;
 import javax.persistence.ManyToOne;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import java.sql.Timestamp;
 
 /**
  *
@@ -27,4 +28,5 @@ public class Request extends AbstractPersistable<Long> {
     
     private String target;
     private String status;
+    private Timestamp modified;
 }

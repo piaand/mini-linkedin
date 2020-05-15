@@ -17,7 +17,9 @@ import java.util.List;
 public interface RequestRepository extends JpaRepository<Request, Long> {
     @Query("SELECT r.target FROM Request r where r.submitter = :submitter") 
     List <String> findTarget(@Param("submitter") Account submitter);
-    Request findByTargetAndSubmitter(String target, Account submitter);
+    List <Request> findByTargetAndSubmitterAndStatus(String target, Account submitter, String status);
+    List <Request> findByTargetAndSubmitter(String target, Account submitter);
     List <Request> findByTargetAndStatus(String target, String status);
     List <Request> findByTarget(String target);
 }
+    
