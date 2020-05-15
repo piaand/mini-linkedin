@@ -18,7 +18,7 @@
   <div class ="container">
     <h3>Your skills:</h3>
     <span th:if="${skills.empty}">
-        <p>You haven't listed any skills!</p>
+        <p>No skills added</p>
     </span>
     <span th:unless="${skills.empty}">
       <ul th:each="skill: ${skills}">
