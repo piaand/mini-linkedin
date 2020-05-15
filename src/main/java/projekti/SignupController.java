@@ -72,6 +72,7 @@ public class SignupController {
         model.addAttribute("account", account);
         model.addAttribute("image", image_string);
         model.addAttribute("requests", invitations);
+        model.addAttribute("contacts", account.getContacts());
         model.addAttribute("skills", skillService.getAllUserSkills(account));
         return "profile";
     }

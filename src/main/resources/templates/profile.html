@@ -49,6 +49,15 @@
         <form th:action="@{/contact/{sender}/{profile_target}(sender=${#authentication.name},profile_target=${account.profile})}" method="POST"><button type="submit" class="btn btn-primary">Add this user to your contact network</button></form>
       </span>
     </div>
+    <div>
+      <span th:if="${contacts.empty}"></span>
+      <span th:unless="${contacts.empty}">
+          <h3>All my contacts</h3>
+          <ul th:each="contact : ${contacts}">
+              <li><span th:text="${contact.name}">Contact names</span></li>
+          </ul>
+      </span>
+    </div>
   </div>
 	<span th:replace="fragments/layout :: scripting"></span>
 </body>
