@@ -27,6 +27,9 @@ public class SignupService {
     private AccountRepository accountRepository;
     
     @Autowired
+    private RequestRepository requestRepository;
+    
+    @Autowired
     private PasswordEncoder passwordEncoder;
     
     private Account getAuthAccount() {
@@ -68,7 +71,7 @@ public class SignupService {
     
     public Account getAccountByName (String name) {
         Account account = accountRepository.findByName(name);
-        return account;
+            return account;
     }
     
     @PreAuthorize("#account.username == authentication.principal.username")
@@ -106,5 +109,7 @@ public class SignupService {
     public void deleteProfilePicture(Account account) {
         account.setPicture(null);
     }
+    
+    
     
 }

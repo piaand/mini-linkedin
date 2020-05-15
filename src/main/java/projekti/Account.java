@@ -18,6 +18,8 @@ import javax.persistence.Lob;
 import javax.persistence.Basic;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,6 +40,12 @@ public class Account extends AbstractPersistable<Long> {
     
     @ManyToMany(cascade = {CascadeType.ALL})
     private List<Skill> skills = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "submitter")
+    private List<Request> requests = new ArrayList<>();
+    
+    @ManyToMany(cascade = {CascadeType.ALL})
+    private List<Account> contacts = new ArrayList<>();
     
     //@Lob annotation is not supported by Heroku Postgres
     @Column(length = 16000000)

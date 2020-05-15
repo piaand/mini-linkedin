@@ -42,7 +42,13 @@ public class ProjekiUnitTest {
     AccountRepository accountRepository;
     
     @Autowired
+    RequestRepository requestRepository;
+    
+    @Autowired
     SkillService skillService;
+    
+    @Autowired
+    ContactService contactService;
     
     private void initRepository() {
         accountRepository.deleteAll();
@@ -141,7 +147,7 @@ public class ProjekiUnitTest {
         }
         assertFalse(same);
     }
-    
+    /*
     @Test
     @Transactional
     public void addSkill() {
@@ -177,6 +183,51 @@ public class ProjekiUnitTest {
         assertEquals(size, skillService.getAllSkills().size());
         assertFalse(skills2.isEmpty());
         
+    }
+*/
+    
+    @Test
+    @Transactional
+    public void addRequests() {
+        testRepoEmpty();
+        initUser1();
+        initUser2();
+        Account source = accountRepository.findByName(name1);
+        Account target = accountRepository.findByName(name2);
+        
+        assertEquals(0, requestRepository.count());
+        
+        testRequestConditionsPass(source, target);
+        
+        contactService.addContactRequest(source, target.getProfile());
+        assertEquals(1, requestRepository.count());
+        
+        
+    }
+    
+    public void testRequestConditionsPass(Account source, Account target) {
+    
+        boolean submitterHasRequest = contactService.getPendingRequestsFromOne(source, target).size() == 1 ? true : false;
+        boolean areFriends = contactService.findIfOneWayContacts(source, target);
+        boolean areSame = source.getProfile().equals(target.getProfile());
+        boolean blocked = contactService.isRequesterBlocked(source, target);
+        
+        assertFalse(submitterHasRequest);
+        assertFalse(areFriends);
+        assertFalse(areSame);
+        assertFalse(blocked);
+    }
+    
+    public void testifBlocked() {
+        testRepoEmpty();
+        initUser1();
+        initUser2();
+        Account source = accountRepository.findByName(name1);
+        Account target = accountRepository.findByName(name2);
+        
+        assertEquals(0, requestRepository.count());
+        Request latest = contactService.findLatestRequestByTargetAndSubmitter(target.getPassword(), source);
+        assertNull(latest);
     }
     
 }
