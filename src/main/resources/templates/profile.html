@@ -36,7 +36,7 @@
             <form th:action="@{/contact/{sender}/{profile_target}/add(sender=${request.submitter.username},profile_target=${account.profile})}" method="POST" >
               <button type="submit" class="btn btn-primary">Accept as contact</button>
             </form>
-            <form th:action="@{/contact/{sender}/{profile_target}/delete(sender=${request.submitter.username},profile_target=${account.profile})}" method="POST" >
+            <form th:action="@{/contact/{sender}/{profile_target}/delete(sender=${account.username},profile_target=${request.submitter.profile})}" method="POST" >
               <button type="submit" class="btn btn-primary">Reject contact</button>
             </form>
           </li>
@@ -54,7 +54,13 @@
       <span th:unless="${contacts.empty}">
           <h3>All my contacts</h3>
           <ul th:each="contact : ${contacts}">
-              <li><span th:text="${contact.name}">Contact names</span></li>
+              <li><span th:text="${contact.name}">Contact names</span>
+                <span th:if="${#authentication.name } == ${account.username}">
+                  <form th:action="@{/contact/{sender}/{profile_target}/delete(sender=${#authentication.name},profile_target=${contact.profile})}" method="POST" >
+                  <button type="submit" class="btn btn-primary">Delete this contact</button>
+                  </form>
+                </span>
+              </li>
           </ul>
       </span>
     </div>

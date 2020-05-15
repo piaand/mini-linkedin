@@ -123,16 +123,22 @@ public class ContactService {
         return latest;
     }
     
-    public boolean isRequesterBlocked(Account requester, Account target) {
-        Request requester_latest = findLatestRequestByTargetAndSubmitter(target.getProfile(), requester);
-        Request target_latest = findLatestRequestByTargetAndSubmitter(requester.getProfile(), target);
+    public Request findLatestRequest(Account one, Account two) {
+        Request two_latest = findLatestRequestByTargetAndSubmitter(one.getProfile(), two);
+        Request one_latest = findLatestRequestByTargetAndSubmitter(two.getProfile(), one);
         Request latest;
         
-        if (requester_latest != null && target_latest != null) {
-            latest = requester_latest.getModified().after(target_latest.getModified()) ? requester_latest : target_latest;
+        if (one_latest != null && two_latest != null) {
+            latest = one_latest.getModified().after(two_latest.getModified()) ? one_latest : two_latest;
         } else {
-            latest = requester_latest != null ? requester_latest : target_latest;
+            latest = one_latest != null ? one_latest : two_latest;
         }
+        
+        return latest;
+    }
+    
+    public boolean isRequesterBlocked(Account requester, Account target) {
+        Request latest = findLatestRequest(requester, target);
         
         if (latest != null) {
             if (latest.getSubmitter().equals(requester) && (latest.getStatus().equals("pending") || latest.getStatus().equals("rejected"))) {
@@ -180,26 +186,32 @@ public class ContactService {
         }
     }
     
-    @PreAuthorize("#initiator.username == authentication.principal.username")
-    public boolean deleteFromNetwork(Account requester, Account initiator) {
-        if (requester != null && initiator != null) {
+    public void acceptedRequestToDeleted(Account source, Account target) {
+      Request latest = findLatestRequest(source, target);
+      if (latest != null && latest.getStatus().equals("accepted")) {
+          setRequestToStatus(latest, "deleted");
+      }
+    }
+    
+    public boolean rejectRequest(Account source, Account target) {
+         List <Request> requests = requestRepository.findByTargetAndSubmitterAndStatus(source.getProfile(), target, "pending");
+        if (requests.size() == 1) {
+            setRequestToStatus(requests.get(0), "rejected");
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    @PreAuthorize("#source.username == authentication.principal.username")
+    public boolean deleteFromNetwork(Account source, Account target) {
+        if (source != null && target != null) {
             boolean removed;
-            if (initiator.getContacts().contains(requester)) {
-                removed = deleteContact(requester, initiator);
-                List <Request> requests = requestRepository.findByTargetAndSubmitterAndStatus(initiator.getProfile(), requester, "accepted");
-                if (requests.size() == 1) {
-                    setRequestToStatus(requests.get(0), "deleted");
-                } else {
-                    removed = false;
-                }
+            if (target.getContacts().contains(source)) {
+                removed = deleteContact(source, target);
+                acceptedRequestToDeleted(source, target);
             } else {
-                List <Request> requests = requestRepository.findByTargetAndSubmitterAndStatus(initiator.getProfile(), requester, "pending");
-                if (requests.size() == 1) {
-                    setRequestToStatus(requests.get(0), "rejected");
-                    removed = true;
-                } else {
-                    removed = false;
-                }
+               removed = rejectRequest(source, target);
             }
             return removed;
         } else {

@@ -34,7 +34,7 @@ public class ContactController {
         Account requester = signupService.getAccountByUsername(sender);
         
         boolean added = contactService.doContactRequest(requester, profile_target);
-        String path = "/profile/" + profile_target;
+        String path = "/profile/" + requester.getProfile();
         return "redirect:" + path;
     }
     
@@ -55,7 +55,7 @@ public class ContactController {
         Account accepter = signupService.getAccountByProfile(profile_target);
         
         boolean added = contactService.deleteFromNetwork(requester, accepter);
-        String path = "/profile/" + profile_target;
+        String path = "/profile/" + requester.getProfile();
         return "redirect:" + path;
     }
 }
