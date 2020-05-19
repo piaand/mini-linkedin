@@ -3,18 +3,8 @@
 <head th:replace="fragments/layout :: head"></head>
 <body class="profile">
   <nav th:replace="fragments/layout :: navbar"></nav>
-	<div class="container">
-    <h1>Hello!</h1>
-    <h1 th:text="${account.name}">Name</h1>
-    <p>Secret!</p>
-    <span th:if="${account.picture == null}">
-        <img th:src="@{/images/sonic_hog.jpg}" alt="Profile Picture" width="400" height="200"/>
-    </span>
-    <span th:unless="${account.picture == null}">
-      <p>You should see your own picture!</p>
-      <img th:src="*{'data:image/jpg;base64,'+ image}" alt="Profile Picture" width="400" height="200" />
-    </span>
-    <div>
+  <div>
+    <div th:replace="fragments/profile :: picture"></div>
     <form th:action="@{/profile/{profile}/profile-picture(profile=${account.profile})}" method="POST" enctype="multipart/form-data">
       <input type="file" name="picture" />
       <button type="submit" class="btn btn-primary" >Change your profile picture</button>
@@ -22,7 +12,6 @@
     <form th:action="@{/profile/{profile}/profile-picture/delete(profile=${account.profile})}" method="POST">
       <button type="submit" class="btn btn-primary">Delete your profile picture</button>
     </form>
-  </div>
   </div>
   <div class ="container">
     <h3>Your skills:</h3>
@@ -38,7 +27,7 @@
       </ul>
       <p>Showing some skills</p>
     </span>
-    <div>
+  <div>
     <form th:action="@{/profile/{profile}/skills(profile=${account.profile})}" method="POST">
       <input type="text" name="skill" placeholder="Name your skill"/>
       <button type="submit" class="btn btn-primary">Add a skill</button>

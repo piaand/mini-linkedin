@@ -38,7 +38,8 @@ public class ContactService {
     public void addContactRequest(Account requester, String target) {
         
         Timestamp created = getDateTimeNow();
-        requestRepository.save(new Request(requester, target, "pending", created));
+        Request request = new Request(requester, target, "pending", created);
+        requestRepository.save(request);
     }
     
     @Transactional
