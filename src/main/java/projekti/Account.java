@@ -19,7 +19,6 @@ import javax.persistence.Basic;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -46,6 +45,9 @@ public class Account extends AbstractPersistable<Long> {
     
     @ManyToMany(cascade = {CascadeType.ALL})
     private List<Account> contacts = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "voter")
+    private List<Vote> givenVotes = new ArrayList<>();
     
     //@Lob annotation is not supported by Heroku Postgres
     @Column(length = 16000000)

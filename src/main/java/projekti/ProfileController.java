@@ -84,4 +84,13 @@ public class ProfileController {
             skillService.deleteOldSkill(account, id);
             return "redirect:/me/settings";
     }
+    
+    @PostMapping("/profile/{profile}/skills/{id}/up/{voter}")
+    public String voteUpSkill(@PathVariable String profile, @PathVariable Long id, @PathVariable String voter) {
+        Account account = signupService.getAccountByUsername(voter);
+        
+        skillService.upvoteSkill(account, profile, id);
+        String path = "/profile/" + profile;
+        return "redirect:" + path;
+    }
 }
