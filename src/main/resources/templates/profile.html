@@ -22,7 +22,15 @@
     </span>
     <span th:unless="${skills.empty}">
       <ul th:each="skill: ${skills}">
-        <li th:text="${skill.name}">Skill name</li>
+        <li>
+          <span th:text="${skill.name}">skill name</span>
+        </li>
+        <span sec:authorize="isAuthenticated()">
+          <span th:if="${#authentication.name } != ${account.username}">
+            <form th:action="@{/profile/{profile}/skills/{id}/up/{voter}(profile=${account.profile},id=${skill.id},voter=${#authentication.name})}" method="POST" >
+              <button type="submit" class="btn btn-primary">Endorse this skill</button>
+          </span>
+        </span>
       </ul>
       <p>Showing some skills</p>
     </span>

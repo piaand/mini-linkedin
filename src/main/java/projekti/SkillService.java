@@ -25,6 +25,9 @@ public class SkillService {
     private SkillRepository skillRepository;
     
     @Autowired
+    private VoteRepository voteRepository;
+    
+    @Autowired
     private AccountRepository accountRepository;
     
     private String trim_skill(String skill) {
@@ -48,7 +51,6 @@ public class SkillService {
                 exists = true;
             }
         }
-        
         return exists;
     }
     
@@ -103,5 +105,27 @@ public class SkillService {
         }
         
         accountRepository.save(account);
+    }
+    
+    public boolean hasAccountVoted(Vote vote) {
+        Vote used_vote = voteRepository.findByTargetSkillAndTargetProfileAndVoter(vote.getTargetSkill(), vote.getTargetProfile(), vote.getVoter());
+
+        if (used_vote == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    @PreAuthorize("#voter.username == authentication.principal.username")
+    @Transactional
+    public void upvoteSkill(Account voter, String targetProfile, Long skill_id) {
+        Vote vote = new Vote(voter, targetProfile, skill_id);
+        boolean hasVoted = hasAccountVoted(vote);
+        
+        if (!hasVoted) {
+            voteRepository.save(vote);
+        }
+        
     }
 }
