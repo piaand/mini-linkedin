@@ -36,10 +36,7 @@ public class Account extends AbstractPersistable<Long> {
     
     @Column(name="profile", unique=true)
     private String profile;
-    
-    @ManyToMany(cascade = {CascadeType.ALL})
-    private List<Skill> skills = new ArrayList<>();
-    
+   
     @OneToMany(mappedBy = "submitter")
     private List<Request> requests = new ArrayList<>();
     
@@ -48,6 +45,9 @@ public class Account extends AbstractPersistable<Long> {
     
     @OneToMany(mappedBy = "voter")
     private List<Vote> givenVotes = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "talent")
+    private List<SkillVote> voted_skills = new ArrayList<>();
     
     //@Lob annotation is not supported by Heroku Postgres
     @Column(length = 16000000)

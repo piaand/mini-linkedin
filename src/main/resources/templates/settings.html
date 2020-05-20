@@ -20,8 +20,8 @@
     </span>
     <span th:unless="${skills.empty}">
       <ul th:each="skill: ${skills}">
-        <li th:text="${skill.name}">Skill name</li>
-        <form th:action="@{/profile/{profile}/skills/{id}/delete(profile=${account.profile},id=${skill.id})}" method="POST" >
+        <li th:text="${skill.skillName}">Skill name</li>
+        <form th:action="@{/profile/{profile}/skills/{id}/delete(profile=${account.profile},id=${skill.skillId})}" method="POST" >
           <button type="submit" class="btn btn-primary">Delete this skill</button>
         </form>
       </ul>

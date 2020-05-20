@@ -33,6 +33,7 @@ public class ProfileController {
     @Autowired
     private SkillService skillService;
     
+    
     @GetMapping("/profile/{profile}/settings")
     public String getSettingsPage(@PathVariable String profile, Model model) {
         Account account = signupService.getAccountByProfile(profile);
@@ -40,7 +41,7 @@ public class ProfileController {
         
         model.addAttribute("account", account);
         model.addAttribute("image", image_string);
-        model.addAttribute("skills", skillService.getAllUserSkills(account));
+        model.addAttribute("skills", skillService.getAllSortedUserSkills(account));
         return "settings";
     }
     
@@ -81,7 +82,7 @@ public class ProfileController {
     public String deleteSkillFromProfile(@PathVariable String profile, @PathVariable Long id) {
             Account account = signupService.getAccountByProfile(profile);
             
-            skillService.deleteOldSkill(account, id);
+            skillService.deleteProfileSkill(account, id);
             return "redirect:/me/settings";
     }
     

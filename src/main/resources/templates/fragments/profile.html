@@ -32,11 +32,11 @@ and open the template in the editor.
 		<span th:unless="${skills.empty}">
 		  <ul th:each="skill: ${skills}">
 			<li>
-			  <span th:text="${skill.name}">skill name</span>
+			  <span th:text="${skill.skillName}">skill name</span><span>, votes: </span><span th:text="${skill.upvotes}">vote amount</span>
 			</li>
 			<span sec:authorize="isAuthenticated()">
 			  <span th:if="${#authentication.name } != ${account.username}">
-				<form th:action="@{/profile/{profile}/skills/{id}/up/{voter}(profile=${account.profile},id=${skill.id},voter=${#authentication.name})}" method="POST" >
+				<form th:action="@{/profile/{profile}/skills/{id}/up/{voter}(profile=${account.profile},id=${skill.skillId},voter=${#authentication.name})}" method="POST" >
 				  <button type="submit" class="btn btn-primary">Endorse this skill</button>
 				</form>
 			  </span>

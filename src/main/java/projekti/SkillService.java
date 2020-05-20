@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import org.springframework.security.access.prepost.PreAuthorize;
 import java.nio.file.AccessDeniedException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 /**
  *
  * @author piaandersin
@@ -23,6 +26,9 @@ public class SkillService {
     
     @Autowired
     private SkillRepository skillRepository;
+    
+    @Autowired
+    private SkillVoteRepository skillVoteRepository;
     
     @Autowired
     private VoteRepository voteRepository;
@@ -41,17 +47,40 @@ public class SkillService {
         }
     }
     
-    private boolean accountHasSkill(Account account, String skill) {
+    private boolean accountHasSkill(Account account, Skill skill) {
         
         boolean exists = false;
         
-        List <Skill> skills = getAllUserSkills(account);
-        for (Skill one : skills) {
-            if (one.getName().equals(skill)) {
+        List <SkillVote> skills = getAllUserSkills(account);
+        for (SkillVote one : skills) {
+            if (one.getSkillId().equals(skill.getId())) {
                 exists = true;
             }
         }
         return exists;
+    }
+    
+    @Transactional
+    public Skill createNewSkill(String skill_trimmed) {
+        Skill skill = new Skill(skill_trimmed);
+        skillRepository.save(skill);
+        return skill;
+    }
+    
+    public Skill getDBSkill(String skill_trimmed) {
+        Skill skill = skillRepository.findByName(skill_trimmed);
+        
+        if (skill == null) {
+            Skill new_skill = createNewSkill(skill_trimmed);
+            return new_skill;
+        } else {
+            return skill;
+        }
+    }
+    
+    @Transactional
+    public void addNewSkillVote(Account account, Skill skill){
+        skillVoteRepository.save(new SkillVote(account, skill.getId(), skill.getName(), 0L));
     }
     
     public List <Skill> getAllSkills() {
@@ -59,52 +88,37 @@ public class SkillService {
         return skills;
     }
     
-    public List <Skill> getAllUserSkills(Account account) {
-        List<Skill> skills = account.getSkills();
-        return skills;
+    public List <SkillVote> getAllUserSkills(Account account) {
+        List<SkillVote> profileSkills = account.getVoted_skills();
+        return profileSkills;
     }
     
-    public Skill createNewSkill(String skill_name) {
-        List <Account> pros = new ArrayList<>();
-        Skill new_skill = new Skill(skill_name, pros);
-        return new_skill;
+    public List <SkillVote> getAllSortedUserSkills(Account account) {
+        Pageable pageable = PageRequest.of(0, 25, Sort.by("upvotes").descending());
+        return skillVoteRepository.findByTalent(account, pageable);
     }
     
     @PreAuthorize("#account.username == authentication.principal.username")
-    @Transactional
-    public void addNewSkill(Account account, String skill) {
-        String skill_trimmed = trim_skill(skill);
+    public void addNewSkill(Account account, String skill_name) {
+        String skill_trimmed = trim_skill(skill_name);
         if (skill_trimmed == null) {
             //do nothing
         } else {
-            boolean is = accountHasSkill(account, skill_trimmed);
-            if (!is) {
-                Skill existing_skill = skillRepository.findByName(skill_trimmed);
-                if (existing_skill == null) {
-                    Skill new_skill = createNewSkill(skill_trimmed);
-                    account.getSkills().add(new_skill);
-                    accountRepository.save(account);
-                } else {
-                    account.getSkills().add(existing_skill);
-                    accountRepository.save(account);
-                }
+            Skill skill = getDBSkill(skill_trimmed);
+            boolean has = accountHasSkill(account, skill);
+            if (!has) {
+                addNewSkillVote(account, skill);
             }
         }
     }
     
     @PreAuthorize("#account.username == authentication.principal.username")
     @Transactional
-    public void deleteOldSkill(Account account, Long skill_id) {
-        List <Skill> skills = account.getSkills();
+    public void deleteProfileSkill(Account account, Long skill_id) {
         
-        for (Skill skill : skills) {
-            if (skill.getId().equals(skill_id)) {
-                skills.remove(skill);
-                break;
-            }
-        }
+        SkillVote skill = skillVoteRepository.findByTalentAndSkillId(account, skill_id);
+        skillVoteRepository.delete(skill);
         
-        accountRepository.save(account);
     }
     
     public boolean hasAccountVoted(Vote vote) {
@@ -124,6 +138,10 @@ public class SkillService {
         boolean hasVoted = hasAccountVoted(vote);
         
         if (!hasVoted) {
+            Account talent = accountRepository.findByProfile(targetProfile);
+            SkillVote voted = skillVoteRepository.findByTalentAndSkillId(talent, skill_id);
+            voted.setUpvotes(voted.getUpvotes() + 1);
+            skillVoteRepository.save(voted);
             voteRepository.save(vote);
         }
         
