@@ -41,7 +41,7 @@ public class ProfileController {
         
         model.addAttribute("account", account);
         model.addAttribute("image", image_string);
-        model.addAttribute("skills", skillService.getAllUserSkills(account));
+        model.addAttribute("skills", skillService.getAllSortedUserSkills(account));
         return "settings";
     }
     

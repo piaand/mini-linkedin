@@ -6,6 +6,7 @@
 package projekti;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 /**
@@ -13,6 +14,6 @@ import java.util.List;
  * @author piaandersin
  */
 public interface SkillVoteRepository extends JpaRepository<SkillVote, Long> {
-    List <SkillVote> findByTalent(Account talent);
+    List <SkillVote> findByTalent(Account talent, Pageable pageable);
     SkillVote findByTalentAndSkillId(Account talent, Long skillId);
 }

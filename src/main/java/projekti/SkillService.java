@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import org.springframework.security.access.prepost.PreAuthorize;
 import java.nio.file.AccessDeniedException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 /**
  *
  * @author piaandersin
@@ -90,6 +93,10 @@ public class SkillService {
         return profileSkills;
     }
     
+    public List <SkillVote> getAllSortedUserSkills(Account account) {
+        Pageable pageable = PageRequest.of(0, 25, Sort.by("upvotes").descending());
+        return skillVoteRepository.findByTalent(account, pageable);
+    }
     
     @PreAuthorize("#account.username == authentication.principal.username")
     public void addNewSkill(Account account, String skill_name) {
