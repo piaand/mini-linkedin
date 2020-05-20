@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head"></head>
+<body class="profile">
+	<nav th:replace="fragments/layout :: navbar"></nav>
+
+	<div class="container">
+		<h1>Welcome to message board</h1>
+		<div class="form-group">
+			<form th:action="@{/board}" method="POST">
+				<label for="exampleFormControlTextarea1">Write a new post to your network</label>
+				<textarea class="form-control" name="content" placeholder="Write max. 150 characters" rows="3"></textarea>
+				<button type="submit" class="btn btn-primary">Post</button>
+			</form>
+		</div>
+		<span th:if="${messages.empty}">Your network has been quiet. Be the first to post something!</span>
+		<span th:unless="${messages.empty}">
+			<div th:each="message: ${messages}">
+				<div>
+					<div><span th:text="${message.created}">Date</span><span> - </span><span th:text="${message.authorName}">Name</span></div>
+					<div><span th:text="${message.content}">Content</span></div>
+				</div>
+			</div>
+		</span>
+	</div>
+	<span th:replace="fragments/layout :: scripting"></span>
+</body>
+</html>

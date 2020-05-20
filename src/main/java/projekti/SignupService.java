@@ -32,7 +32,7 @@ public class SignupService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     
-    private Account getAuthAccount() {
+    public Account getAuthAccount() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         Account account = accountRepository.findByUsername(username);
