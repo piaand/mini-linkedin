@@ -5,16 +5,12 @@
  */
 package projekti;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.AbstractPersistable;
-import javax.persistence.OneToMany;
 
 /**
  *
@@ -23,13 +19,10 @@ import javax.persistence.OneToMany;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
-public class Message extends AbstractPersistable<Long> {
-    private String authorProfile;
-    private String authorName;
-    private String content;
-    private Timestamp created;
-    private Long likes = 0L;
+public class PostVote extends AbstractPersistable<Long> {
     
-    @OneToMany(cascade = {CascadeType.ALL})
-    private List<Comment> comments = new ArrayList<>();
+    @ManyToOne
+    private Account liker;
+    private Long messageId;
+    
 }

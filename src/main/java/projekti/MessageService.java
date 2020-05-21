@@ -31,6 +31,9 @@ public class MessageService {
     CommentRepository commentRepository;
     
     @Autowired
+    PostVoteRepository likeRepository;
+    
+    @Autowired
     ContactService contactService;
     
     public Message createNewMessage(Account author, String content) {
@@ -58,6 +61,18 @@ public class MessageService {
         return pageable;
     }
     
+    public boolean messageLikedByAccount(Message message, Account account) {
+        boolean hasLiked = false;
+        List <PostVote> likes = account.getGivenLikes();
+        for (PostVote like : likes) {
+            if (like.getMessageId().equals(message.getId())) {
+                hasLiked = true;
+                break;
+            }
+        }
+        return hasLiked;
+    }
+    
     public List <String> getContactProfiles(Account account) {
         List <Account> friends = account.getContacts();
         List <String> profiles = new ArrayList<>();
@@ -65,6 +80,18 @@ public class MessageService {
             profiles.add(friend.getProfile());
         }
         return profiles;
+    }
+    
+    @PreAuthorize("#account.username == authentication.principal.username")
+    @Transactional
+    public void likeMessage(Account account, Message message) {
+        boolean hasLiked = messageLikedByAccount(message, account);
+        if (!hasLiked) {
+            message.setLikes(message.getLikes() + 1);
+            PostVote new_like = new PostVote(account, message.getId());
+            messageRepository.save(message);
+            likeRepository.save(new_like);
+        }
     }
     
     @PreAuthorize("#author.username == authentication.principal.username")
