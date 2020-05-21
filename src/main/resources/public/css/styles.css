@@ -20,6 +20,48 @@ html {
 				0px 18px 23px rgba(0,0,0,0.1);
 }
 
+#personal-post {
+	margin-top: 3em;
+	margin-bottom: 3em;
+
+}
+
+.mssg-base {
+	margin: 10px;
+	margin-bottom: 20px;
+	padding: 10px;
+	background-color: white;
+	font-size: 1.5em;
+	color: #777;
+}
+
+.mssg-header {
+	margin: 10px;
+	padding: 10px;
+	background-color: #7AA6D3;
+	color: white;
+	padding: 1em, 1em, 1em, 1em;
+}
+
+.comment-base {
+	margin-bottom: 20px;
+	background-color: white;
+	padding: 1em, 1em, 1em, 1em;
+}
+
+hr.mssg-line {
+	border-bottom:1px solid rgba(0,0,0,.2);
+}
+
+button {
+
+	display: inline-block;
+}
+
+textarea.form-control {
+	margin-bottom: 1em;
+}
+
 body {
 	background: url("../images/selfie_hog.jpg"); 
 	background-size: cover;

@@ -5,8 +5,8 @@
 	<nav th:replace="fragments/layout :: navbar"></nav>
 
 	<div class="container">
-		<h1>Welcome to message board</h1>
-		<div class="form-group">
+		<h1>Message board</h1>
+		<div id="personal-post">
 			<form th:action="@{/board}" method="POST">
 				<label for="exampleFormControlTextarea1">Write a new post to your network</label>
 				<textarea class="form-control" name="content" placeholder="Write max. 150 characters" rows="3"></textarea>
@@ -16,21 +16,23 @@
 		<span th:if="${messages.empty}">Your network has been quiet. Be the first to post something!</span>
 		<span th:unless="${messages.empty}">
 			<div th:each="message: ${messages}">
-				<div>
-					<div><span th:text="${message.created}">Date</span><span> - </span><span th:text="${message.authorName}">Name</span><span> Likes: </span><span th:text="${message.likes}">upvotes</span></div>
-					<div><span th:text="${message.content}">Content</span></div>
-					<form th:action="@{/board/{message_id}/like(message_id=${message.id})}" method="POST"><button type="submit" class="btn btn-primary">Like this message</button></form>
-				</div>
-				<div th:each="comment,iterStat: ${message.comments}" th:if="${iterStat.index}<10">
-					<div><span th:text="${comment.created}">Date</span><span> - </span><span th:text="${comment.commentorName}">Name</span></div>
-					<div><span th:text="${comment.content}">Content</span></div>
-				</div>
-				<div>
-					<form th:action="@{/board/{message_id}(message_id=${message.id})}" method="POST">
-						<label>Write a new comment to your network</label>
-						<textarea class="form-control" name="content" placeholder="Write max. 150 characters" rows="2"></textarea>
-						<button type="submit" class="btn btn-primary">Post comment</button>
-					</form>
+				<div class="mssg-base">
+					<div class="mssg-header"><span th:text="${message.created}">Date</span><span> - </span><span th:text="${message.authorName}">Name</span><span> Likes: </span><span th:text="${message.likes}">upvotes</span></div>
+					<div>
+						<span th:text="${message.content}">Content</span>
+						<form th:action="@{/board/{message_id}/like(message_id=${message.id})}" method="POST"><button type="submit" class="btn btn-primary">Like this message</button></form>
+					</div>
+					<div class="comment-base" th:each="comment,iterStat: ${message.comments}" th:if="${iterStat.index}<10">
+						<div><span th:text="${comment.created}">Date</span><span> - </span><span th:text="${comment.commentorName}">Name</span></div>
+						<div><span th:text="${comment.content}">Content</span></div>
+					</div>
+					<div>
+						<form th:action="@{/board/{message_id}(message_id=${message.id})}" method="POST">
+							<label>Write a new comment to your network</label>
+							<textarea class="form-control" name="content" placeholder="Write max. 150 characters" rows="2"></textarea>
+							<button type="submit" class="btn btn-primary">Post comment</button>
+						</form>
+					</div>
 				</div>
 			</div>
 		</span>
