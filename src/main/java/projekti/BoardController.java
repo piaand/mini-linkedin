@@ -57,4 +57,14 @@ public class BoardController {
         messageService.addComment(author, content.getContent(), message);
         return "redirect:/board";
     }
+    
+     @PostMapping("/board/{message_id}/like")
+    public String likeToMessage(@PathVariable Long message_id) {
+        
+        Account author = signupService.getAuthAccount();
+        Message message = messageService.getMessagaByID(message_id);
+        messageService.likeMessage(author, message);
+        return "redirect:/board";
+    }
+    
 }

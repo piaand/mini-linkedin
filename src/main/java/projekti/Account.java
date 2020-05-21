@@ -46,6 +46,9 @@ public class Account extends AbstractPersistable<Long> {
     @OneToMany(mappedBy = "voter")
     private List<Vote> givenVotes = new ArrayList<>();
     
+    @OneToMany(mappedBy = "liker")
+    private List<PostVote> givenLikes = new ArrayList<>();
+    
     @OneToMany(mappedBy = "talent")
     private List<SkillVote> voted_skills = new ArrayList<>();
     
