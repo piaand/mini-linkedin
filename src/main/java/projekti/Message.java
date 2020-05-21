@@ -8,6 +8,7 @@ package projekti;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +29,6 @@ public class Message extends AbstractPersistable<Long> {
     private String content;
     private Timestamp created;
     
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private List<Comment> comments = new ArrayList<>();
 }

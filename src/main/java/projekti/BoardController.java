@@ -46,4 +46,15 @@ public class BoardController {
         messageService.addMessage(author, content.getContent());
         return "redirect:/board";
     }
+    
+    @PostMapping("/board/{message_id}")
+    public String addToMessage(@Valid @ModelAttribute TextContent content, BindingResult bindingResult, @PathVariable Long message_id) {
+        if (bindingResult.hasErrors()) {
+            return "redirect:/";
+        }
+        Account author = signupService.getAuthAccount();
+        Message message = messageService.getMessagaByID(message_id);
+        messageService.addComment(author, content.getContent(), message);
+        return "redirect:/board";
+    }
 }
