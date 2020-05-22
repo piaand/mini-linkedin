@@ -20,6 +20,76 @@ html {
 				0px 18px 23px rgba(0,0,0,0.1);
 }
 
+#personal-post {
+	margin-top: 3em;
+	margin-bottom: 3em;
+	font-size: 1.15em;
+
+}
+
+.posting {
+	font-size: 1.5em;
+}
+
+.comment-form {
+	margin-top: 15px;
+}
+
+.mssg-content {
+	display: table-cell;
+}
+
+.mssg-button {
+	float:right;
+	display: table-cell;
+	margin-left: 20px;
+}
+
+.mssg-base {
+	margin: 10px;
+	padding: 10px;
+	margin-bottom: 20px;
+	background-color: white;
+	color: #777;
+}
+
+.mssg-posting {
+	border-bottom: 1px solid #bbb;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	display: table;
+	width: 100%;
+}
+
+.mssg-header {
+	margin: -10px -10px 10px -10px;
+	padding: 10px;
+	background-color: #7AA6D3;
+	color: white;
+	font-size: 1.25em;
+}
+
+.likes {
+	float: right;
+}
+
+.comment-base {
+	padding-top: 10px;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	background-color: white;
+}
+
+
+button {
+
+	display: inline-block;
+}
+
+textarea.form-control {
+	margin-bottom: 1em;
+}
+
 body {
 	background: url("../images/selfie_hog.jpg"); 
 	background-size: cover;
