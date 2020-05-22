@@ -11,17 +11,15 @@ and open the template in the editor.
 	</head>
     <body>
       <div th:fragment="picture">
-		<div class="container">
-			<h1>Hello <span th:text="${account.name}">User</span></h1>
-			<p>Secret!</p>
+		<div>
 			<span th:if="${account.picture == null}">
-				<img th:src="@{/images/sonic_hog.jpg}" alt="Profile Picture" width="400" height="200"/>
+				<img th:src="@{/images/sonic_hog.jpg}" alt="Profile Picture" class="img-responsive"/>
 			</span>
 			<span th:unless="${account.picture == null}">
 			  <p>You should see your own picture!</p>
-			  <img th:src="*{'data:image/jpg;base64,'+ image}" alt="Profile Picture" width="400" height="200" />
+			  <img th:src="*{'data:image/jpg;base64,'+ image}" alt="Profile Picture" class="img-responsive" />
 			</span>
-		  </div> 
+		</div> 
 	  </div>
 
 	  <div th:fragment="skill-list">

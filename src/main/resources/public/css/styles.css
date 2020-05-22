@@ -20,11 +20,31 @@ html {
 				0px 18px 23px rgba(0,0,0,0.1);
 }
 
+.img-profile {
+	width: 100%;
+	height: auto;
+}
+
 #personal-post {
 	margin-top: 3em;
 	margin-bottom: 3em;
 	font-size: 1.15em;
 
+}
+
+#profile-header{
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+#profile-name {
+	
+}
+
+#profile-button {
+	float: left;
+	margin-top: 40px;
+	margin-bottom: 10px;
 }
 
 .posting {
