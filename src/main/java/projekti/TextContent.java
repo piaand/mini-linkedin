@@ -20,6 +20,6 @@ import lombok.NoArgsConstructor;
 public class TextContent {
     
     @NotNull
-    @Size(min=1, max=150)
+    @Size(min=1, max=250)
     private String content;
 }
