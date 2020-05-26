@@ -20,9 +20,9 @@ html {
 				0px 18px 23px rgba(0,0,0,0.1);
 }
 
-.img-profile {
-	width: 100%;
-	height: auto;
+#img-profile {
+	margin-top: 5px;
+	margin-bottom: 20px;
 }
 
 #personal-post {
@@ -32,13 +32,25 @@ html {
 
 }
 
+.profile-block {
+	background-color: white;
+	color: #777;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-top: 5px;
+	margin-bottom: 20px;
+	border-radius: 5px;
+}
+
+h3.profile-block{
+	position: relative;
+}
+
 #profile-header{
 	width: 100%;
 	margin-bottom: 20px;
-}
-
-#profile-name {
-	
 }
 
 #profile-button {
@@ -68,9 +80,10 @@ html {
 .mssg-base {
 	margin: 10px;
 	padding: 10px;
-	margin-bottom: 20px;
+	margin-bottom: 40px;
 	background-color: white;
 	color: #777;
+	border-radius: 5px;
 }
 
 .mssg-posting {
@@ -84,7 +97,7 @@ html {
 .mssg-header {
 	margin: -10px -10px 10px -10px;
 	padding: 10px;
-	background-color: #7AA6D3;
+	background-color: rgba(150, 150, 150, 0.856);
 	color: white;
 	font-size: 1.25em;
 }
