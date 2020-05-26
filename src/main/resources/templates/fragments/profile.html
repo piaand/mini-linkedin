@@ -78,15 +78,18 @@ and open the template in the editor.
 		<span th:unless="${contacts.empty}">
 			<div class="profile-block">
 				<h3 class="profile-block">Contact list</h3>
-				<ul th:each="contact : ${contacts}">
-					<li><a th:href="@{/profile/{profile_id}(profile_id=${contact.profile})}"><span th:text="${contact.name}">Contact names</span></a>
-					<span th:if="${#authentication.name } == ${account.username}">
-						<form th:action="@{/contact/{sender}/{profile_target}/delete(sender=${#authentication.name},profile_target=${contact.profile})}" method="POST" >
-						<button type="submit" class="btn btn-primary">Delete this contact</button>
-						</form>
-					</span>
-					</li>
-				</ul>
+				<table>
+					<tr th:each="contact : ${contacts}">
+						<td><a th:href="@{/profile/{profile_id}(profile_id=${contact.profile})}"><span th:text="${contact.name}">Contact names</span></a></td>
+						<span th:if="${#authentication.name } == ${account.username}">
+							<td>
+								<form th:action="@{/contact/{sender}/{profile_target}/delete(sender=${#authentication.name},profile_target=${contact.profile})}" method="POST" >
+									<button type="submit" class="btn btn-primary">Delete contact</button>
+								</form>
+							</td>
+						</span>
+					</tr>
+				</table>
 			</div>
 		</span>
 	  </div>
