@@ -21,7 +21,7 @@
       </div>
       <div class="col-sm-6 col-md-4">
         <div th:replace="fragments/profile :: skill-list"></div>
-        <span th:if="${#authentication.name } == ${account.username}"><a th:href="@{/me/settings}"><button class="btn btn-primary">Alter your profile</button></a></span>
+        <span th:if="${#authentication.name } == ${account.username}"><a th:href="@{/me/settings}"><button class="btn btn-primary" id="alter-profile-button" >Alter your profile</button></a></span>
         <span th:unless="${#authentication.name } == ${account.username}"></span>
       </div>
       <div class="col-sm-12 col-md-4">

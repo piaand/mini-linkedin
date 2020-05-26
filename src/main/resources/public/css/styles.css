@@ -25,6 +25,29 @@ html {
 	margin-bottom: 20px;
 }
 
+th {
+	color: #777;
+}
+
+th, td {
+	padding: 10px;
+	text-align: left;
+}
+
+table {
+	width: 100%;
+  }
+
+tbody > tr:nth-child(-n+4) {
+	color: rgb(31, 99, 138);
+	font-weight: bold;
+  }
+
+#alter-profile-button {
+
+	margin-bottom: 20px;
+}
+
 #personal-post {
 	margin-top: 3em;
 	margin-bottom: 3em;

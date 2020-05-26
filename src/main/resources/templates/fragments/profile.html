@@ -27,18 +27,30 @@ and open the template in the editor.
 			<p>No skills added</p>
 		</span>
 		<span th:unless="${skills.empty}">
-		  <ul th:each="skill: ${skills}">
-			<li>
-			  <span th:text="${skill.skillName}">skill name</span><span>, votes: </span><span th:text="${skill.upvotes}">vote amount</span>
-			</li>
-			<span sec:authorize="isAuthenticated()">
-			  <span th:if="${#authentication.name } != ${account.username}">
-				<form th:action="@{/profile/{profile}/skills/{id}/up/{voter}(profile=${account.profile},id=${skill.skillId},voter=${#authentication.name})}" method="POST" >
-				  <button type="submit" class="btn btn-primary">Endorse this skill</button>
-				</form>
-			  </span>
-			</span>
-		  </ul>
+		  <table>
+			  <tr>
+				  <th>Skill</th>
+				  <th>Votes</th>
+				  <span sec:authorize="isAuthenticated()">
+						<span th:if="${#authentication.name } != ${account.username}">
+							<th>Endorse</th>
+						</span>
+				  </span>
+			  </tr>
+			  <tr th:each="skill: ${skills}">
+				  <td><span th:text="${skill.skillName}">Name</span></td>
+				  <td><span th:text="${skill.upvotes}">amount</span></td>
+				  <span sec:authorize="isAuthenticated()">
+						<span th:if="${#authentication.name } != ${account.username}">
+							<td>
+								<form th:action="@{/profile/{profile}/skills/{id}/up/{voter}(profile=${account.profile},id=${skill.skillId},voter=${#authentication.name})}" method="POST" >
+								<button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-paw"></i></button>
+							  </form>
+							</td>
+						</span>
+					</span>
+			  </tr>
+		  </table>
 		</span>
 	  </div>
 
