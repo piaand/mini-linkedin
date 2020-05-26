@@ -3,37 +3,51 @@
 <head th:replace="fragments/layout :: head"></head>
 <body class="profile">
   <nav th:replace="fragments/layout :: navbar"></nav>
-  <div>
-    <div th:replace="fragments/profile :: picture"></div>
-    <form th:action="@{/profile/{profile}/profile-picture(profile=${account.profile})}" method="POST" enctype="multipart/form-data">
-      <input type="file" name="picture" />
-      <button type="submit" class="btn btn-primary" >Change your profile picture</button>
-    </form>
-    <form th:action="@{/profile/{profile}/profile-picture/delete(profile=${account.profile})}" method="POST">
-      <button type="submit" class="btn btn-primary">Delete your profile picture</button>
-    </form>
-  </div>
   <div class ="container">
-    <h3>Your skills:</h3>
-    <span th:if="${skills.empty}">
-        <p>You haven't listed any skills!</p>
-    </span>
-    <span th:unless="${skills.empty}">
-      <ul th:each="skill: ${skills}">
-        <li th:text="${skill.skillName}">Skill name</li>
-        <form th:action="@{/profile/{profile}/skills/{id}/delete(profile=${account.profile},id=${skill.skillId})}" method="POST" >
-          <button type="submit" class="btn btn-primary">Delete this skill</button>
-        </form>
-      </ul>
-      <p>Showing some skills</p>
-    </span>
-  <div>
-    <form th:action="@{/profile/{profile}/skills(profile=${account.profile})}" method="POST">
-      <input type="text" name="skill" placeholder="Name your skill"/>
-      <button type="submit" class="btn btn-primary">Add a skill</button>
-    </form>
-  </div>
-  <a th:href="@{/me}"><button class="btn btn-primary" >Back to your profile page</button></a>
+    <div class="row" id="profile-header">
+        <div id="profile-name">
+            <h1><span th:text="${account.name}">User</span></h1>
+        </div>
+    </div>
+    <div class=row>
+        <div class="col-sm-6">
+          <div th:replace="fragments/profile :: picture"></div>
+        </div>
+        <div class ="col-sm-6">
+          <div class="profile-block">
+            <h3>Alter your picture:</h3>
+            <form th:action="@{/profile/{profile}/profile-picture(profile=${account.profile})}" method="POST" enctype="multipart/form-data" class="change-picture-btn">
+              <input type="file" name="picture" />
+              <button type="submit" class="btn btn-primary" >Change your profile picture</button>
+            </form>
+            <form th:action="@{/profile/{profile}/profile-picture/delete(profile=${account.profile})}" method="POST" class="change-picture-btn">
+              <button type="submit" class="btn btn-primary">Delete your profile picture</button>
+            </form>
+          </div>
+          <div class="profile-block">
+            <h3>Your skills:</h3>
+            <span th:if="${skills.empty}">
+                <p>You haven't listed any skills!</p>
+            </span>
+            <span th:unless="${skills.empty}">
+              <table>
+                <tr th:each="skill: ${skills}">
+                  <td th:text="${skill.skillName}">Skill</td>
+                  <td>
+                      <form th:action="@{/profile/{profile}/skills/{id}/delete(profile=${account.profile},id=${skill.skillId})}" method="POST" >
+                        <button type="submit" class="btn btn-primary">Delete this skill</button>
+                      </form>
+                  </td>
+                </tr>
+              </table>
+            </span>
+            <form th:action="@{/profile/{profile}/skills(profile=${account.profile})}" method="POST">
+              <input type="text" name="skill" placeholder="Name your skill"/>
+              <button type="submit" class="btn btn-primary">Add a skill</button>
+            </form>
+          </div>
+          <a th:href="@{/me}"><button class="btn btn-primary" >Back to your profile page</button></a>
+        </div>
   </div>
   <span th:replace="fragments/layout :: scripting"></span>
 </body>

@@ -136,10 +136,9 @@ h3.profile-block{
 	background-color: white;
 }
 
+.change-picture-btn {
 
-button {
-
-	display: inline-block;
+	margin: 10px;
 }
 
 textarea.form-control {
