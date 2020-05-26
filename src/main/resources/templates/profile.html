@@ -4,21 +4,33 @@
 <body class="profile">
   <nav th:replace="fragments/layout :: navbar"></nav>
   <div class ="container">
-    <div th:replace="fragments/profile :: picture"></div>
-    <div th:replace="fragments/profile :: skill-list"></div>
-    <span th:if="${#authentication.name } == ${account.username}"><a th:href="@{/me/settings}"><button class="btn btn-primary">Alter your profile</button></a></span>
-    <span th:unless="${#authentication.name } == ${account.username}"></span>
-    <div th:replace="fragments/profile :: pending-requests"></div>
-
-    <div sec:authorize="isAuthenticated()">
-      <span th:if="${#authentication.name } != ${account.username}">
-        <form th:action="@{/contact/{sender}/{profile_target}(sender=${#authentication.name},profile_target=${account.profile})}" method="POST"><button type="submit" class="btn btn-primary">Add this user to your contact network</button></form>
-      </span>
-      <span th:unless="${#authentication.name } != ${account.username}"></span>
+    <div class="row" id="profile-header">
+      <div class="col-sm-6" id="profile-name">
+        <h1><span th:text="${account.name}">User</span></h1>
+      </div>
+      <div sec:authorize="isAuthenticated()" class="col-sm-4" id="profile-button">
+        <span th:if="${#authentication.name } != ${account.username}">
+          <span th:if="${contacts.?[username == '__${#authentication.name}__'].isEmpty()}">
+            <form th:action="@{/contact/{sender}/{profile_target}(sender=${#authentication.name},profile_target=${account.profile})}" method="POST"><button type="submit" class="btn btn-primary">Add this user to your contact network</button></form>
+          </span>
+        </span>
+        <span th:unless="${#authentication.name } != ${account.username}"></span>
+      </div>
     </div>
-
-    <div th:replace="fragments/profile :: contact-list"></div>
-  </div>
+    <div class=row>
+      <div class="col-sm-6 col-md-4">
+        <div th:replace="fragments/profile :: picture"></div>
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <div th:replace="fragments/profile :: skill-list"></div>
+        <span th:if="${#authentication.name } == ${account.username}"><a th:href="@{/me/settings}"><button class="btn btn-primary" id="alter-profile-button" >Alter your profile</button></a></span>
+        <span th:unless="${#authentication.name } == ${account.username}"></span>
+      </div>
+      <div class="col-sm-12 col-md-4">
+          <div th:replace="fragments/profile :: pending-requests"></div>
+          <div th:replace="fragments/profile :: contact-list"></div>
+      </div>
+    </div>
 	<span th:replace="fragments/layout :: scripting"></span>
 </body>
 </html>
