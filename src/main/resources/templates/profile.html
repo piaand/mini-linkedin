@@ -10,7 +10,9 @@
       </div>
       <div sec:authorize="isAuthenticated()" class="col-sm-4" id="profile-button">
         <span th:if="${#authentication.name } != ${account.username}">
-          <form th:action="@{/contact/{sender}/{profile_target}(sender=${#authentication.name},profile_target=${account.profile})}" method="POST"><button type="submit" class="btn btn-primary">Add this user to your contact network</button></form>
+          <span th:if="${contacts.?[username == '__${#authentication.name}__'].isEmpty()}">
+            <form th:action="@{/contact/{sender}/{profile_target}(sender=${#authentication.name},profile_target=${account.profile})}" method="POST"><button type="submit" class="btn btn-primary">Add this user to your contact network</button></form>
+          </span>
         </span>
         <span th:unless="${#authentication.name } != ${account.username}"></span>
       </div>
