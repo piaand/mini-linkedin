@@ -73,6 +73,13 @@
             <artifactId>postgresql</artifactId>
         </dependency>
         
+        
+        <dependency>
+            <groupId>org.fluentlenium</groupId>
+            <artifactId>fluentlenium-core</artifactId>
+            <version>3.7.1</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.fluentlenium</groupId>
             <artifactId>fluentlenium-junit</artifactId>

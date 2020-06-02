@@ -4,12 +4,11 @@
 <body>
 	<nav th:replace="fragments/layout :: navbar"></nav>
 	<div class="container" id="signup">
-
 			<h3>Fill all the fields between 2 to 50 characters</h3>
 			<form th:action="@{/signup}" method="POST">
 				<div class="form-group">
 					<label for="InputName">Your full name</label>
-					<input type="name" class="form-control" id="exampleInputPassword1" placeholder="Your name" name="name">
+					<input type="name" class="form-control" id="inputFullname" placeholder="Your name" name="name">
 				</div>
 				<div class="form-group">
 				<label for="inputUsername">Select a username</label>
@@ -18,15 +17,14 @@
 				</div>
 				<div class="form-group">
 				<label for="exampleInputPassword1">Password</label>
-				<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password">
+				<input type="password" class="form-control" id="inputPassword1" placeholder="Password" name="password">
 				</div>
 				<div class="form-group">
 					<label for="InputProfile">Profile characterization</label>
-					<input type="text" class="form-control" id="exampleInputPassword1" placeholder="Write f.ex firstname-lastname" name="profile">
+					<input type="text" class="form-control" id="inputProfileChar" placeholder="Write f.ex firstname-lastname" name="profile">
 				</div>
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</form>
-
 	</div>
 	<span th:replace="fragments/layout :: scripting"></span>
 </body>

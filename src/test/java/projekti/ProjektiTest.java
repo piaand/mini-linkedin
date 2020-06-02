@@ -1,6 +1,8 @@
 package projekti;
 
 import org.junit.Test;
+import java.util.concurrent.TimeUnit;
+import org.fluentlenium.configuration.FluentConfiguration;
 import static org.fluentlenium.core.filter.FilterConstructor.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
@@ -15,13 +17,20 @@ import static org.fluentlenium.core.filter.FilterConstructor.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ProjektiTest extends org.fluentlenium.adapter.junit.FluentTest {
-
+    
+    private String landingIntro = "The Only Spike-friendly Resume App";
+    private String signupText = "Fill all the fields between 2 to 50 characters";
+    private String loginText = "Please sign in";
+    private String name = "Matti Meikalainen";
+    private String username = "mattis";
+    private String password = "kissa";
+    private String profile = "matti-meikalainen-1";
+    
     @LocalServerPort
     Integer port;
     
     @Test
     public void testlangingPage() {
-        String landingIntro = "The Only Spike-friendly Resume App";
         goTo("http://localhost:" + port);
         assertTrue(pageSource().contains(landingIntro));
         find("a", withText("About")).click();
@@ -30,25 +39,24 @@ public class ProjektiTest extends org.fluentlenium.adapter.junit.FluentTest {
     
     @Test
     public void testRegistration() {
-        String landingIntro = "The Only Spike-friendly Resume App";
-        String signupText = "I solemnly swear that I am up to no good";
-        String name = "Matti Meikäläinen";
-        String username = "mattis";
-        String password = "kissa";
-        String profile = "matti-meikalainen-1";
         
         goTo("http://localhost:" + port);
         assertTrue(pageSource().contains(landingIntro));
         find(".btn-default", withText("Sign up")).click();
         assertTrue(pageSource().contains(signupText));
-        find("input").fill().with(name, username, password, profile);
+        find("#inputFullname").fill().with(name);
+        find("#inputUsername").fill().with(username);
+        find("#inputPassword1").fill().with(password);
+        find("#inputProfileChar").fill().with(profile);
         find("button", withText("Submit")).click();
         assertTrue(pageSource().contains(landingIntro));
         find(".btn-lg", withText("Log in")).click();
         assertFalse(pageSource().contains(landingIntro));
-        find("input").fill().with(username, password);
+        assertTrue(pageSource().contains(loginText));
+        find("#username").fill().with(username);
+        find("#password").fill().with(password);
         find("button").click();
-        assertTrue(pageSource().contains("Secret!"));
+        assertTrue(pageSource().contains("Alter your"));
     }
     
 }
