@@ -83,8 +83,38 @@ public class FullServiceTest extends org.fluentlenium.adapter.junit.FluentTest {
         assertTrue(pageSource().contains("Alter your"));
     }
     
+    public void testFindUser(String name) {
+        find("input").first().fill().with(name);
+        find("#hidden-enter").submit();
+        assertTrue(pageSource().contains(name));
+    }
+    
+    public void testVoteSkill() {
+        testFindUser(name1);
+        assertTrue(pageSource().contains("Endorse"));
+        find(".btn-sm").first().click();
+        assertTrue(pageSource().contains("Endorse"));
+        System.out.print(pageSource());
+    }
+    
     public void testConnectUser() {
+        testFindUser(name2);
+        find("button", withText("Add this user to your contact network")).first().click();
+        find("#logout-button").click();
+        assertTrue(pageSource().contains("Log in"));
         
+        /* Login user2*/
+        find(".btn-default", withText("Log in")).click();
+        assertFalse(pageSource().contains(landingIntro));
+        assertTrue(pageSource().contains(loginText));
+        find("#username").fill().with(username2);
+        find("#password").fill().with(password2);
+        find("button").click();
+        assertTrue(pageSource().contains("Accept as contact"));
+        find("button", withText("Accept as contact")).click();
+        assertTrue(pageSource().contains("Contact list"));
+        assertTrue(pageSource().contains(name1));
+        assertTrue(pageSource().contains("Delete contact"));
     }
     
     public void testAddSkills() {
@@ -103,17 +133,22 @@ public class FullServiceTest extends org.fluentlenium.adapter.junit.FluentTest {
         System.out.print(pageSource());
         find("button", withText("Delete this skill")).first().click();
         assertFalse(pageSource().contains(skill3));
+        find("button", withText("Back to your profile page")).first().click();
+        assertTrue(pageSource().contains("Alter your"));
+        assertTrue(pageSource().contains(skill1));
+        assertTrue(pageSource().contains(skill2));
+        assertFalse(pageSource().contains(skill3));
         
     }
     
     @Test
     public void testAlterProfile() {
-        
         assertTrue(pageSource().contains("No skills added"));
         find("#alter-profile-button").click();
         assertTrue(pageSource().contains("You haven't listed any skills!"));
         testAddSkills();
-        //testConnectUser();
+        testConnectUser();
+        testVoteSkill();
     }
     
 
