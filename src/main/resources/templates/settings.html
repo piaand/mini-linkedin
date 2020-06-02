@@ -41,7 +41,7 @@
                 </tr>
               </table>
             </span>
-            <form th:action="@{/profile/{profile}/skills(profile=${account.profile})}" method="POST">
+            <form th:action="@{/profile/{profile}/skills(profile=${account.profile})}" method="POST" id="add-new-skill">
               <input type="text" name="skill" placeholder="Name your skill"/>
               <button type="submit" class="btn btn-primary">Add a skill</button>
             </form>
