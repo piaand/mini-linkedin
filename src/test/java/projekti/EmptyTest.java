@@ -53,6 +53,7 @@ public class EmptyTest extends org.fluentlenium.adapter.junit.FluentTest {
     @Test
     public void testlangingPage() {
         testInit();
+        assertFalse(pageSource().contains("Board"));
         find("a", withText("About")).click();
         assertFalse(pageSource().contains(landingIntro));
     }

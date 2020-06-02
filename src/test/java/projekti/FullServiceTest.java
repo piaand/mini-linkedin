@@ -41,6 +41,8 @@ public class FullServiceTest extends org.fluentlenium.adapter.junit.FluentTest {
     private String skill1 = "napping";
     private String skill2 = "foraging";
     private String skill3 = "polish";
+    private String post = "Ibsum lorem";
+    private String comment = "bacon ibsum comm";
     
     @LocalServerPort
     Integer port;
@@ -81,6 +83,27 @@ public class FullServiceTest extends org.fluentlenium.adapter.junit.FluentTest {
         find("button").click();
         System.out.print(pageSource());
         assertTrue(pageSource().contains("Alter your"));
+    }
+    
+    public void testCommentPost() {
+        find("div.comment-form textarea").first().fill().with(comment);
+        find("button", withText("Post comment")).first().click();
+        assertTrue(pageSource().contains(comment));
+        System.out.print(pageSource());
+        assertTrue(pageSource().contains("commented:"));
+    }
+    
+    public void testPublishPost() {
+        find("a", withText("Board")).click();
+        assertTrue(pageSource().contains("Write a new post to your network"));
+        assertTrue(pageSource().contains("Your network has been quiet."));
+        find("textarea.form-control").first().fill().with(post);
+        find("button", withText("Post")).first().click();
+        assertTrue(pageSource().contains(post));
+        System.out.print(pageSource());
+        assertTrue(pageSource().contains(name2));
+        assertTrue(pageSource().contains("posted:"));
+        testCommentPost();
     }
     
     public void testFindUser(String name) {
@@ -149,6 +172,7 @@ public class FullServiceTest extends org.fluentlenium.adapter.junit.FluentTest {
         testAddSkills();
         testConnectUser();
         testVoteSkill();
+        testPublishPost();
     }
     
 
