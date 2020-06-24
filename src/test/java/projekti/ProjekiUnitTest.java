@@ -147,44 +147,7 @@ public class ProjekiUnitTest {
         }
         assertFalse(same);
     }
-    /*
-    @Test
-    @Transactional
-    public void addSkill() {
-        String skill1_name = "cleaning";
-        String skill2_name = "napping";
-        String skill3_name = "battling snakes";
-        int size;
-        
-        testRepoEmpty();
-        initUser1();
-        
-        Account account = accountRepository.findByUsername(username1);
-        assertEquals(account.getName(), name1);
-        List <Skill> skills = skillService.getAllUserSkills(account);
-        assertTrue(skills.isEmpty());
-        assertTrue(skillService.getAllSkills().isEmpty());
-        
-        skillService.addNewSkill(account, skill1_name);
-        skills = account.getSkills();
-        assertFalse(skills.isEmpty());
-        assertFalse(skillService.getAllSkills().isEmpty());
-        
-        initUser2();
-        Account account2 = accountRepository.findByUsername(username2);
-        assertEquals(account2.getName(), name2);
-        List <Skill> skills2 = skillService.getAllUserSkills(account2);
-        assertTrue(skills2.isEmpty());
-        assertFalse(skillService.getAllSkills().isEmpty());
-        
-        size = skillService.getAllSkills().size();
-        skillService.addNewSkill(account2, skill1_name);
-        skills2 = account2.getSkills();
-        assertEquals(size, skillService.getAllSkills().size());
-        assertFalse(skills2.isEmpty());
-        
-    }
-*/
+    
     
     @Test
     @Transactional
