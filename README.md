@@ -7,6 +7,8 @@ Project is deployed to Heroku, build with Java Spring framework, Thymeleaf, HTML
 
 [See here the live version of the project](https://pure-harbor-61781.herokuapp.com/)
 
+ ![Landing page](documentation/landing_page.png)
+
 ### Lessons learnt during the project
 * Fundaments of web development - core concepts like understanding HTTP requests and status codes or post-redirect-get modelling
 * MVC architecture and how it compares to layered or micro service architectures
@@ -33,11 +35,3 @@ From terminal the application starts by running ```mvn spring-boot:run```
 Below is a picture of the database structure:
 ![DB structure](documentation/db_mini-linkedin.png)
 
-
-## Screenshots on the project
-Below some screenshots on the site showing some of the core functionalities like user's profile view and ability to endorse other users' skills:
- ![Landing page](documentation/landing_page.png)
-
- ![User's profile page](documentation/profile_page.png)
- 
- ![Landing page](documentation/contact_profile.png)
