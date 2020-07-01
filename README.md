@@ -11,6 +11,8 @@ You can create your own user by signing up or then use these credentials:\
 username: <b>hhog</b>\
 password: <b>bpotter</b>
 
+All the photos in the screenshots are gathered from [Unsplash](https://unsplash.com/). The Landing page photo seen below is from Sierra Narvaeth.
+
  ![Landing page](documentation/landing_page.png)
 
 ### Lessons learnt during the project
