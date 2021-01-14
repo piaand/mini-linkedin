@@ -1,5 +1,5 @@
 # Pointy Professionals Resume Application
-This is a project for "Web programming with Java Spring" course from University of Helsinki.
+This is a project for "Web programming with Java Spring" course from University of Helsinki. Project steps have been documented to [Github project](https://github.com/piaand/mini-linkedin/projects/1) tab as issues.
 
 Project entails a full-stack web application where the user may register and log in to the service where they can create themselves a professional portfolio. User can invite other users to their contact network and praise their skills.
 
