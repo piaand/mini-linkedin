@@ -5,7 +5,7 @@ Project entails a full-stack web application where the user may register and log
 
 Project is deployed to Heroku, build with Java Spring framework, Thymeleaf, HTML and Bootstrap CSS. Testing done with Junit and Fluentlenium.
 
-[See here the live version of the project](https://pure-harbor-61781.herokuapp.com/)
+[Project is currently on maintenance and not accessible](https://pure-harbor-61781.herokuapp.com/)
 
 You can create your own user by signing up or then use these credentials:\
 username: <b>hhog</b>\
